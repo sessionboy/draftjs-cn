@@ -10,8 +10,8 @@ module.exports = {
   tagline: 'Rich Text Editor Framework for React',
   url: 'https://draftjs-cn.netlify.com',
   baseUrl: '/',
-  organizationName: 'facebook',
-  projectName: 'draft-js',
+  organizationName: 'sessionboy',
+  projectName: 'draftjs-cn',
   favicon: 'img/draftjs-logo.ico',
   presets: [
     [
