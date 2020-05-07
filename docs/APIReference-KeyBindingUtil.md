@@ -1,12 +1,11 @@
 ---
 id: api-reference-key-binding-util
-title: KeyBindingUtil
+title: KeyBindingUtil 键绑定工具
 ---
 
-The `KeyBindingUtil` module is a static set of utility functions for
-defining key bindings.
+`KeyBindingUtil`模块是一组static set(静态集合)的实用函数，用于定义键绑定
 
-## Static Methods
+## 静态方法
 
 ### `isCtrlKeyCommand()`
 
@@ -16,9 +15,8 @@ isCtrlKeyCommand: function(
 ): boolean
 ```
 
-Check whether the `ctrlKey` modifier is _not_ being used in conjunction with
-the `altKey` modifier. If they are combined, the result is an `altGraph`
-key modifier, which is not handled by this set of key bindings.
+检查`ctrlKey`修饰符(modifier)是否未与`altKey`修饰符一起使用。
+如果将它们组合在一起，则结果是一个`altGraph`键修饰符，这组键绑定未对其进行处理
 
 ### `isOptionKeyCommand()`
 
@@ -34,8 +32,7 @@ isOptionKeyCommand: function(
 usesMacOSHeuristics: function(): boolean
 ```
 
-Check whether heuristics that only apply to macOS are used internally, for
-example when determining the key combination used as command modifier.
+检查是否在内部使用了仅适用于macOS的试探法，例如在确定用作命令修饰符的组合键时。
 
 ### `hasCommandModifier()`
 

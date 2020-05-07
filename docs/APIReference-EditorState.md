@@ -1,29 +1,28 @@
 ---
 id: api-reference-editor-state
-title: EditorState
+title: EditorState 编辑器状态
 ---
 
-`EditorState` is the top-level state object for the editor.
+`EditorState`是编辑器的顶级状态对象。
 
-It is an Immutable [Record](http://facebook.github.io/immutable-js/docs/#/Record/Record)
-that represents the entire state of a Draft editor, including:
+它是Immutable [Record](http://facebook.github.io/immutable-js/docs/#/Record/Record)，代表草稿编辑器的整个状态，包括
 
-- The current text content state
-- The current selection state
-- The fully decorated representation of the contents
-- Undo/redo stacks
-- The most recent type of change made to the contents
+- 当前文本内容状态
+- 当前选择状态
+- 内容的完全修饰表示
+- Undo/redo堆栈
+- 对内容所做的最新更改
 
-> Note
+> 注意
 >
-> You should not use the Immutable API when using EditorState objects.
-> Instead, use the instance getters and static methods below.
+> 使用EditorState对象时，不应使用Immutable API。
+> 相反，请使用下面的实例getter和静态方法。
 
-## Overview
+## 总览
 
-_Common instance methods_
+_普通实例方法_
 
-The list below includes the most commonly used instance methods for `EditorState` objects.
+下面的列表包括最常用的`EditorState`对象实例方法。
 
 <ul class="apiIndex">
   <li>
@@ -48,7 +47,7 @@ The list below includes the most commonly used instance methods for `EditorState
   </li>
 </ul>
 
-_Static Methods_
+_静态方法_
 
 <ul class="apiIndex">
   <li>
@@ -113,15 +112,15 @@ _Static Methods_
   </li>
 </ul>
 
-_Properties_
+_属性_
 
-> Note
+> 注意
 >
-> Use the static `EditorState` methods to set properties, rather than using
-> the Immutable API directly. This means using `EditorState.set` to pass
-> new options to an EditorState instance.
+> 使用静态`EditorState`方法来设置属性，而不是直接使用Immutable API。  
 >
-> **Example**
+> 这意味着使用`EditorState.set`将新选项传递给`EditorState`实例。
+>
+> **例子**
 >
 > ```js
 > const editorState = EditorState.createEmpty();
@@ -198,7 +197,7 @@ _Properties_
   </li>
 </ul>
 
-## Common Instance Methods
+## 普通实例方法
 
 ### `getCurrentContent`
 
@@ -206,28 +205,23 @@ _Properties_
 getCurrentContent(): ContentState
 ```
 
-Returns the current contents of the editor.
+返回编辑器的当前内容。
 
 ### `getSelection`
 
 ```js
 getSelection(): SelectionState
 ```
-
-Returns the current cursor/selection state of the editor.
+返回编辑器的当前cursor/selection(光标/选择)的状态。
 
 ### `getCurrentInlineStyle`
 
 ```js
 getCurrentInlineStyle(): DraftInlineStyle
 ```
+返回一个`OrderedSet <string>`，它表示编辑器的“当前”内联样式。
 
-Returns an `OrderedSet<string>` that represents the "current" inline style
-for the editor.
-
-This is the inline style value that would be used if a character were inserted
-for the current `ContentState` and `SelectionState`, and takes into account
-any inline style overrides that should be applied.
+这是在为当前`ContentState`和`SelectionState`插入字符时将使用的内联样式值，并考虑了应应用的任何内联样式替代。
 
 ### `getBlockTree`
 
@@ -235,23 +229,19 @@ any inline style overrides that should be applied.
 getBlockTree(blockKey: string): List;
 ```
 
-Returns an Immutable `List` of decorated and styled ranges. This is used for
-rendering purposes, and is generated based on the `currentContent` and
-`decorator`.
+返回修饰范围和样式范围的Immutable `List`。
+这用于呈现目的，并且是基于`currentContent`和`decorator`生成的。
 
-At render time, this object is used to break the contents into the appropriate
-block, decorator, and styled range components.
+在渲染时，此对象用于将内容分解为适当的块，装饰器和样式化的范围组件。
 
-## Static Methods
+## 静态方法
 
 ### `createEmpty`
 
 ```js
 static createEmpty(decorator?: DraftDecoratorType): EditorState
 ```
-
-Returns a new `EditorState` object with an empty `ContentState` and default
-configuration.
+返回具有空`ContentState`和默认配置的新`EditorState`对象。
 
 ### `createWithContent`
 
@@ -261,18 +251,15 @@ static createWithContent(
   decorator?: DraftDecoratorType
 ): EditorState
 ```
-
-Returns a new `EditorState` object based on the `ContentState` and decorator
-provided.
+根据提供的`ContentState`和装饰器返回一个新的`EditorState`对象。
 
 ### `create`
 
 ```js
 static create(config: EditorStateCreationConfig): EditorState
 ```
-
-Returns a new `EditorState` object based on a configuration object. Use this
-if you need custom configuration not available via the methods above.
+根据配置对象返回一个新的`EditorState`对象。
+如果您需要通过上述方法无法使用的自定义配置，请使用此选项。
 
 ### `push`
 
@@ -283,25 +270,21 @@ static push(
   changeType: EditorChangeType
 ): EditorState
 ```
+返回一个新的`EditorState`对象，并将指定的`ContentState`用作新的`currentContent`。
+基于changeType`，此`ContentState`可以视为undo/redo(撤消/重做)行为的边界状态。
 
-Returns a new `EditorState` object with the specified `ContentState` applied
-as the new `currentContent`. Based on the `changeType`, this `ContentState`
-may be regarded as a boundary state for undo/redo behavior.
+必须使用此方法将所有内容更改都应用于`EditorState`。
 
-All content changes must be applied to the EditorState with this method.
-
-_To be renamed._
+_重命名。_
 
 ### `undo`
 
 ```js
 static undo(editorState: EditorState): EditorState
 ```
+返回一个新的`EditorState`对象，并将撤消堆栈的顶部用作新的`currentContent`。
 
-Returns a new `EditorState` object with the top of the undo stack applied
-as the new `currentContent`.
-
-The existing `currentContent` is pushed onto the `redo` stack.
+现有的`currentContent`被推入`redo`堆栈。
 
 ### `redo`
 
@@ -309,9 +292,9 @@ The existing `currentContent` is pushed onto the `redo` stack.
 static redo(editorState: EditorState): EditorState
 ```
 
-Returns a new `EditorState` object with the top of the redo stack applied as the new `currentContent`.
+返回一个新的`EditorState`对象，并将`redo`堆栈的顶部用作新的`currentContent`。
 
-The existing `currentContent` is pushed onto the `undo` stack.
+现有的`currentContent`被推入`undo`堆栈。
 
 ### `acceptSelection`
 
@@ -322,11 +305,9 @@ static acceptSelection(
 ): EditorState
 ```
 
-Returns a new `EditorState` object with the specified `SelectionState` applied,
-but without requiring the selection to be rendered.
+返回一个新的`EditorState`对象，该对象已应用指定的`SelectionState`，但不需要呈现selection。
 
-For example, this is useful when the DOM selection has changed outside of our
-control, and no re-renders are necessary.
+例如，当DOM选择在我们的控制范围之外更改并且不需要重新渲染时，这很有用。
 
 ### `forceSelection`
 
@@ -336,33 +317,27 @@ static forceSelection(
   selectionState: SelectionState
 ): EditorState
 ```
+返回一个新的`EditorState`对象，该对象已应用指定的`SelectionState`，强制呈现selection。
 
-Returns a new `EditorState` object with the specified `SelectionState` applied,
-forcing the selection to be rendered.
-
-This is useful when the selection should be manually rendered in the correct
-location to maintain control of the rendered output.
+当应该在正确的位置手动呈现选择内容以保持对呈现输出的控制时，这很有用。
 
 ### `moveSelectionToEnd`
 
 ```js
 static moveSelectionToEnd(editorState: EditorState): EditorState
 ```
+返回一个新的`EditorState`对象，该对象的最后一个selection。
 
-Returns a new `EditorState` object with the selection at the end.
-
-Moves selection to the end of the editor without forcing focus.
+将selection移到编辑器的末尾，而不强制焦点。
 
 ### `moveFocusToEnd`
 
 ```js
 static moveFocusToEnd(editorState: EditorState): EditorState
 ```
+返回一个新的`EditorState`对象，该对象的末尾具有selection并强制focus。
 
-Returns a new `EditorState` object with selection at the end and forces focus.
-
-This is useful in scenarios where we want to programmatically focus the input
-and it makes sense to allow the user to continue working seamlessly.
+这在我们要以编程方式集中输入的情况下很有用，并且允许用户继续无缝地工作是有意义的。
 
 ### `setInlineStyleOverride`
 
@@ -370,31 +345,26 @@ and it makes sense to allow the user to continue working seamlessly.
 static setInlineStyleOverride(editorState: EditorState, inlineStyleOverride: DraftInlineStyle): EditorState
 ```
 
-Returns a new `EditorState` object with the specified `DraftInlineStyle` applied
-as the set of inline styles to be applied to the next inserted characters.
+返回一个新的`EditorState`对象，该对象具有指定的`DraftInlineStyle`作为内联样式集，这些内联样式将应用于下一个插入的字符。
 
 ### `set`
 
 ```js
 static set(editorState: EditorState, options: EditorStateRecordType): EditorState
 ```
+返回带有新选项的新`EditorState`对象。该方法继承自Immutable `record` API。
 
-Returns a new `EditorState` object with new options passed in. The method is
-inherited from the Immutable `record` API.
+## Properties and Getters 属性和吸气剂
 
-## Properties and Getters
+在大多数情况下，上述实例和静态方法应足以管理草稿编辑器的状态
 
-In most cases, the instance and static methods above should be sufficient to
-manage the state of your Draft editor.
+以下是`EditorState`跟踪的属性及其对应的getter方法的完整列表，以更好地提供有关此对象中跟踪的状态范围的详细信息。
 
-Below is the full list of properties tracked by an `EditorState`, as well as
-their corresponding getter methods, to better provide detail on the scope of the
-state tracked in this object.
-
-> Note
+> 注意
 >
-> You should not use the Immutable API when using EditorState objects.
-> Instead, use the instance getters and static methods above.
+> 使用`EditorState`对象时，不应使用Immutable API。
+> 而是使用上面的实例getter和静态方法。
+
 
 ### `allowUndo`
 
@@ -403,11 +373,10 @@ allowUndo: boolean;
 getAllowUndo();
 ```
 
-Whether to allow undo/redo behavior in this editor. Default is `true`.
+在此编辑器中是否允许撤消/重做行为。
+默认为true。
 
-Since the undo/redo stack is the major source of memory retention, if you have
-an editor UI that does not require undo/redo behavior, you might consider
-setting this to `false`.
+由于undo/redo(撤消/重做)堆栈是内存保留的主要来源，因此，如果您的编辑器UI不需要撤消/重做行为，则可以考虑将其设置为`false`。
 
 ### `currentContent`
 
@@ -416,7 +385,8 @@ currentContent: ContentState;
 getCurrentContent();
 ```
 
-The currently rendered `ContentState`. See [getCurrentContent()](#getcurrentcontent).
+当前呈现的`ContentState`。
+请参见[getCurrentContent()](#getcurrentcontent)。
 
 ### `decorator`
 
@@ -424,11 +394,10 @@ The currently rendered `ContentState`. See [getCurrentContent()](#getcurrentcont
 decorator: ?DraftDecoratorType;
 getDecorator()
 ```
+当前装饰器对象（如果有）。
 
-The current decorator object, if any.
-
-Note that the `ContentState` is independent of your decorator. If a decorator
-is provided, it will be used to decorate ranges of text for rendering.
+请注意，`ContentState`独立于装饰器。
+如果提供了装饰器，则它将用于装饰文本范围以进行渲染。
 
 ### `directionMap`
 
@@ -436,10 +405,9 @@ is provided, it will be used to decorate ranges of text for rendering.
 directionMap: BlockMap;
 getDirectionMap();
 ```
+每个块的map(映射)及其文本方向，由`UnicodeBidiService`确定
 
-A map of each block and its text direction, as determined by UnicodeBidiService.
-
-You should not manage this manually.
+您不应该手动管理它。
 
 ### `forceSelection`
 
@@ -448,10 +416,9 @@ forceSelection: boolean;
 mustForceSelection();
 ```
 
-Whether to force the current `SelectionState` to be rendered.
+是否强制渲染当前的`SelectionState`。
 
-You should not set this property manually -- see
-[`forceSelection()`](#forceselection).
+您不应该手动设置此属性-请参见[`forceSelection()`](#forceselection)。
 
 ### `inCompositionMode`
 
@@ -460,9 +427,9 @@ inCompositionMode: boolean;
 isInCompositionMode();
 ```
 
-Whether the user is in IME composition mode. This is useful for rendering the
-appropriate UI for IME users, even when no content changes have been committed
-to the editor. You should not set this property manually.
+用户是否处于IME合成模式。
+即使未对编辑器提交任何内容更改，这对于为IME用户呈现适当的UI也很有用。
+您不应该手动设置此属性。
 
 ### `inlineStyleOverride`
 
@@ -471,12 +438,10 @@ inlineStyleOverride: DraftInlineStyle;
 getInlineStyleOverride();
 ```
 
-An inline style value to be applied to the next inserted characters. This is
-used when keyboard commands or style buttons are used to apply an inline style
-for a collapsed selection range.
+一个内联样式值，将应用于下一个插入的字符。
+当使用键盘命令或样式按钮为折叠的选择范围应用嵌入式样式时，将使用此样式。
 
-`DraftInlineStyle` is a type alias for an immutable `OrderedSet` of strings,
-each of which corresponds to an inline style.
+`DraftInlineStyle`是不可变的immutable `OrderedSet`字符串的类型别名，每个字符串都对应一个内联样式。
 
 ### `lastChangeType`
 
@@ -484,9 +449,8 @@ each of which corresponds to an inline style.
 lastChangeType: EditorChangeType;
 getLastChangeType();
 ```
-
-The type of content change that took place in order to bring us to our current
-`ContentState`. This is used when determining boundary states for undo/redo.
+为了使我们进入当前的`ContentState`而进行的内容更改的类型。
+在确定撤消/重做的边界状态时使用。
 
 ### `nativelyRenderedContent`
 
@@ -494,15 +458,11 @@ The type of content change that took place in order to bring us to our current
 nativelyRenderedContent: ?ContentState;
 getNativelyRenderedContent()
 ```
+在编辑行为期间，编辑器可以允许某些操作本地呈现。
+例如，在基于`contentEditable`的组件中的正常键入行为期间，我们通常可以允许击键事件落入以打印DOM中的字符。
+这样一来，我们就可以避免重新渲染并保留拼写检查突出显示。
 
-During edit behavior, the editor may allow certain actions to render natively.
-For instance, during normal typing behavior in the contentEditable-based component,
-we can typically allow key events to fall through to print characters in the DOM.
-In doing so, we can avoid extra re-renders and preserve spellcheck highlighting.
-
-When allowing native rendering behavior, it is appropriate to use the
-`nativelyRenderedContent` property to indicate that no re-render is necessary
-for this `EditorState`.
+当允许本机呈现行为时，使用`nativelyRenderedContent`属性指示对此`EditorState`不需要重新呈现是适当的
 
 ### `redoStack`
 
@@ -510,15 +470,13 @@ for this `EditorState`.
 redoStack: Stack<ContentState>;
 getRedoStack()
 ```
+ContentState对象的immutable堆栈，可以对其进行重做操作。
+执行撤消操作时，当前的`ContentState`被推送到`redoStack`上。
 
-An immutable stack of `ContentState` objects that can be resurrected for redo
-operations. When performing an undo operation, the current `ContentState` is
-pushed onto the `redoStack`.
+您不应该手动管理此属性。
+如果要禁用撤消/重做行为，请使用`allowUndo`属性。
 
-You should not manage this property manually. If you would like to disable
-undo/redo behavior, use the `allowUndo` property.
-
-See also [undoStack](#undostack).
+另请查看[undoStack](#undostack).
 
 ### `selection`
 
@@ -527,10 +485,11 @@ selection: SelectionState;
 getSelection();
 ```
 
-The currently rendered `SelectionState`. See [acceptSelection()](#acceptselection)
-and [forceSelection()](#forceselection).
+当前呈现的`SelectionState`。
+请查看[acceptSelection()](#acceptselection)
+and [forceSelection()](#forceselection)。
 
-You should not manage this property manually.
+您不应该手动管理此属性.
 
 ### `treeMap`
 
@@ -538,15 +497,12 @@ You should not manage this property manually.
 treeMap: OrderedMap<string, List>;
 ```
 
-The fully decorated and styled tree of ranges to be rendered in the editor
-component. The `treeMap` object is generated based on a `ContentState` and an
-optional decorator (`DraftDecoratorType`).
+完全装饰和样式化的ranges(范围)树，将在编辑器组件中呈现。
+`treeMap`对象是基于`ContentState`和可选的装饰器（`DraftDecoratorType`）生成的。
 
-At render time, components should iterate through the `treeMap` object to
-render decorated ranges and styled ranges, using the [getBlockTree()](#getblocktree)
-method.
+在渲染时，组件应使用[getBlockTree()](#getblocktree)方法遍历`treeMap`对象以渲染装饰范围和样式化范围。
 
-You should not manage this property manually.
+您不应该手动管理此属性.
 
 ### `undoStack`
 
@@ -555,15 +511,13 @@ undoStack: Stack<ContentState>;
 getUndoStack()
 ```
 
-An immutable stack of `ContentState` objects that can be restored for undo
-operations.
+不变的`ContentState`对象堆栈，可以将其还原以执行撤消操作。
 
-When performing operations that modify contents, we determine whether the
-current `ContentState` should be regarded as a "boundary" state that the user
-can reach by performing an undo operation. If so, the `ContentState` is pushed
-onto the `undoStack`. If not, the outgoing `ContentState` is discarded.
+在执行修改内容的操作时，我们确定是否应将当前`ContentState`视为用户通过执行撤消操作可以到达的“boundary(边界)”状态。
+如果是这样，则将`ContentState`推送到`undoStack`上。
+如果不是，则丢弃传出的`ContentState`。
 
-You should not manage this property manually. If you would like to disable
-undo/redo behavior, use the `allowUndo` property.
+您不应该手动管理此属性。
+如果要禁用撤消/重做行为，请使用`allowUndo`属性。
 
-See also [`redoStack`](#redostack).
+另外查看[`redoStack`](#redostack).

@@ -7,7 +7,7 @@
 
 module.exports = {
   title: 'Draft.js',
-  tagline: 'Rich Text Editor Framework for React',
+  tagline: '基于React的富文本编辑器框架',
   url: 'https://draftjs-cn.netlify.com',
   baseUrl: '/',
   organizationName: 'sessionboy',
@@ -39,7 +39,7 @@ module.exports = {
         src: 'img/draftjs-logo.svg',
       },
       links: [
-        {to: 'docs/getting-started', label: 'Docs', position: 'right'},
+        {to: 'docs/getting-started', label: '文档', position: 'right'},
         {
           href: 'https://github.com/facebook/draft-js',
           label: 'GitHub',
@@ -58,10 +58,10 @@ module.exports = {
       style: 'dark',
       links: [
         {
-          title: 'Docs',
+          title: '文档',
           items: [
             {
-              label: 'Getting Started',
+              label: '入门指南',
               to: 'docs/getting-started',
             },
             {
@@ -71,7 +71,7 @@ module.exports = {
           ],
         },
         {
-          title: 'Community',
+          title: '社区',
           items: [
             {
               label: 'Stack Overflow',
@@ -84,7 +84,7 @@ module.exports = {
           ],
         },
         {
-          title: 'More',
+          title: '更多',
           items: [
             {
               label: 'GitHub',

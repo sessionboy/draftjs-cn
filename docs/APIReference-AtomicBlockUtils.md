@@ -1,15 +1,13 @@
 ---
 id: api-reference-atomic-block-utils
-title: AtomicBlockUtils
+title: AtomicBlockUtils 原子块工具
 ---
 
-The `AtomicBlockUtils` module is a static set of utility functions for atomic
-block editing.
+`AtomicBlockUtils`模块是用于原子(atomic)块编辑的一组实用工具函数的static set(静态集合)。
 
-In each case, these methods accept `EditorState` objects with relevant
-parameters and return `EditorState` objects.
+一般情况下，这些方法都接受带有相关参数的`EditorState`对象，并返回`EditorState`对象。
 
-## Static Methods
+## 静态方法
 
 ### `insertAtomicBlock()`
 

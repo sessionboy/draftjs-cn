@@ -1,26 +1,19 @@
 ---
 id: api-reference-data-conversion
-title: Data Conversion
+title: 数据转换
 ---
 
-Because a text editor doesn't exist in a vacuum and it's important to save
-contents for storage or transmission, you will want to be able to
-convert a `ContentState` into raw JS, and vice versa.
+因为文本编辑器不存在，而且保存内容以供storage或transmission(存储或传输)很重要，所以您将希望能够将`ContentState`转换为raw JS，反之亦然
 
-To that end, we provide a couple of utility functions that allow you to perform
-these conversions.
+为此，我们提供了一些实用程序功能，可让您执行这些转换。
 
-Note that the Draft library does not currently provide utilities to convert to
-and from markdown or markup, since different clients may have different requirements
-for these formats. We instead provide JavaScript objects that can be converted
-to other formats as needed.
+请注意，草稿库当前不提供实用工具来使markdown 或 markup之间进行转换，因为不同的客户端可能对这些格式有不同的要求。
+相反，我们提供了可以根据需要转换为其他格式的JavaScript对象。
 
-The Flow type [`RawDraftContentState`](https://github.com/facebook/draft-js/blob/master/src/model/encoding/RawDraftContentState.js)
-denotes the expected structure of the raw format of the contents. The raw state
-contains a list of content blocks, as well as a map of all relevant entity
-objects.
+Flow类型[`RawDraftContentState`](https://github.com/facebook/draft-js/blob/master/src/model/encoding/RawDraftContentState.js)表示内容的raw格式的预期结构。
+raw state包含内容块的列表以及所有相关实体对象的映射
 
-## Functions
+## 函数
 
 ### `convertFromRaw()`
 
@@ -28,8 +21,8 @@ objects.
 convertFromRaw(rawState: RawDraftContentState): ContentState
 ```
 
-Given a raw state, convert it to a `ContentState`. This is useful when
-restoring contents to use within a Draft editor.
+给定raw state，将其转换为`ContentState`。
+还原要在草稿编辑器中使用的内容时，这很有用。
 
 ### `convertToRaw()`
 
@@ -37,9 +30,8 @@ restoring contents to use within a Draft editor.
 convertToRaw(contentState: ContentState): RawDraftContentState
 ```
 
-Given a `ContentState` object, convert it to a raw JS structure. This is useful
-when saving an editor state for storage, conversion to other formats, or
-other usage within an application.
+给定一个`ContentState`对象，将其转换为raw JS结构。
+当保存编辑器状态以进行存储，转换为其他格式或在应用程序中进行其他使用时，此功能非常有用
 
 ### `convertFromHTML()`
 
@@ -59,8 +51,7 @@ this.state = {
 };
 ```
 
-Given an HTML fragment, convert it to an object with two keys; one holding the
-array of `ContentBlock` objects, and the other holding a reference to the
-entityMap. Construct content state from the array of block elements and the
-entityMap, and then update the editor state with it. Full example available
-[here](https://github.com/facebook/draft-js/tree/master/examples/draft-0-10-0/convertFromHTML).
+给定一个HTML片段，用两个键将其转换为对象；
+一个保存`ContentBlock`对象的数组，另一个保存对`EntityMap`的引用。
+从块元素数组和`EntityMap`构造content state(内容状态)，然后使用其更新编辑器状态。
+完整的示例在[这里](https://github.com/facebook/draft-js/tree/master/examples/draft-0-10-0/convertFromHTML)。

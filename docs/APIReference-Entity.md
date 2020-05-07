@@ -1,27 +1,23 @@
 ---
 id: api-reference-entity
-title: Entity
+title: Entity 实体
 ---
 
-`Entity` is a static module containing the API for creating, retrieving, and
-updating entity objects, which are used for annotating text ranges with metadata.
-This module also houses the single store used to maintain entity data.
+`Entity`是一个静态模块，其中包含用于创建，检索和更新实体对象的API，该对象用于使用元数据注释文本范围。
+该模块还包含用于维护实体数据的单个store(存储)
 
-This article is dedicated to covering the details of the API. See the
-[advanced topics article on entities](/docs/advanced-topics-entities)
-for more detail on how entities may be used.
+本文致力于介绍API的详细信息。
+有关如何使用实体的更多详细信息，请参见有关[实体的高级主题文章](/docs/advanced-topics-entities)。
 
-Please note that the API for entity storage and management has changed recently;
-for details on updating your application
-[see our v0.10 API Migration Guide](/docs/v0-10-api-migration#content).
+请注意，用于实体存储和管理的API最近已更改；
+有关更新应用程序的详细信息，请参见我们的[v0.10 API迁移指南](/docs/v0-10-api-migration#content)。
 
-Entity objects returned by `Entity` methods are represented as
-[DraftEntityInstance](https://github.com/facebook/draft-js/blob/master/src/model/entity/DraftEntityInstance.js) immutable records. These have a small set of getter functions and should
-be used only for retrieval.
+`Entity`(实体)的方法返回的实体对象表示为[DraftEntityInstance](https://github.com/facebook/draft-js/blob/master/src/model/entity/DraftEntityInstance.js) immutable records。
+这些具有少量的`getter`函数，应仅用于检索。
 
-## Overview
+## 总览
 
-_Methods_
+_方法_
 
 <ul class="apiIndex">
   <li>
@@ -51,9 +47,9 @@ _Methods_
   </li>
 </ul>
 
-## Methods
+## 方法
 
-### `create` _(Deprecated in favour of [`contentState.createEntity`](/docs/api-reference-content-state#createentity))_
+### `create` _(不推荐使用 [`contentState.createEntity`](/docs/api-reference-content-state#createentity))_
 
 ```js
 create(
@@ -63,38 +59,33 @@ create(
 ): string
 ```
 
-The `create` method should be used to generate a new entity object with the
-supplied properties.
+应该使用`create`方法来生成具有提供的属性的新实体对象
 
-Note that a string is returned from this function. This is because entities
-are referenced by their string key in `ContentState`. The string value should
-be used within `CharacterMetadata` objects to track the entity for annotated
-characters.
+请注意，此函数返回一个字符串。
+这是因为实体是通过`ContentState`中的字符串键引用的。
+应该在`CharacterMetadata`对象中使用字符串值来跟踪带有注释字符的实体。
 
-### `add` _(Deprecated in favour of [`contentState.addEntity`](/docs/api-reference-content-state#addentity))_
+### `add` _(不推荐使用 [`contentState.addEntity`](/docs/api-reference-content-state#addentity))_
 
 ```js
 add(instance: DraftEntityInstance): string
 ```
+在大多数情况下，您将使用`Entity.create()`。
+这是一种便捷的方法，在典型的“草稿”用法中您可能不需要。
 
-In most cases, you will use `Entity.create()`. This is a convenience method
-that you probably will not need in typical Draft usage.
+在已经创建实例并且现在需要将其添加到`Entity`存储的情况下，添加功能很有用。
+如果要恢复`ContentState`的原始JavaScript表示以进行编辑，则可能会发生这种情况。
 
-The `add` function is useful in cases where the instances have already been
-created, and now need to be added to the `Entity` store. This may occur in cases
-where a vanilla JavaScript representation of a `ContentState` is being revived
-for editing.
-
-### `get` _(Deprecated in favour of [`contentState.getEntity`](/docs/api-reference-content-state#getentity))_
+### `get` _(不推荐使用 [`contentState.getEntity`](/docs/api-reference-content-state#getentity))_
 
 ```js
 get(key: string): DraftEntityInstance
 ```
 
-Returns the `DraftEntityInstance` for the specified key. Throws if no instance
-exists for that key.
+返回指定键的`DraftEntityInstance`。
+如果该键不存在实例，则抛出该异常。
 
-### `mergeData` _(Deprecated in favour of [`contentState.mergeEntityData`](/docs/api-reference-content-state#mergeentitydata))_
+### `mergeData` _(不推荐使用 [`contentState.mergeEntityData`](/docs/api-reference-content-state#mergeentitydata))_
 
 ```js
 mergeData(
@@ -103,12 +94,11 @@ mergeData(
 ): DraftEntityInstance
 ```
 
-Since `DraftEntityInstance` objects are immutable, you cannot update an entity's
-metadata through typical mutative means.
+由于`DraftEntityInstance`对象是不可变的，因此您无法通过典型的可变方式来更新实体的元数据。
 
-The `mergeData` method allows you to apply updates to the specified entity.
+`mergeData`方法允许您将更新应用于指定的实体。
 
-### `replaceData` _(Deprecated in favour of [`contentState.replaceEntityData`](/docs/api-reference-content-state#replaceentitydata))_
+### `replaceData` _(不推荐使用 [`contentState.replaceEntityData`](/docs/api-reference-content-state#replaceentitydata))_
 
 ```js
 replaceData(
@@ -117,6 +107,4 @@ replaceData(
 ): DraftEntityInstance
 ```
 
-The `replaceData` method is similar to the `mergeData` method, except it will
-totally discard the existing `data` value for the instance and replace it with
-the specified `newData`.
+`replaceData`方法与`mergeData`方法类似，不同之处在于它将完全丢弃实例的现有`data`值并将其替换为指定的newData。

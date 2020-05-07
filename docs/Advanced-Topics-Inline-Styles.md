@@ -1,31 +1,27 @@
 ---
 id: advanced-topics-inline-styles
-title: Complex Inline Styles
+title: 复杂的内联样式
 ---
 
-Within your editor, you may wish to provide a wide variety of inline style
-behavior that goes well beyond the bold/italic/underline basics. For instance,
-you may want to support variety with color, font families, font sizes, and more.
-Further, your desired styles may overlap or be mutually exclusive.
+在您的编辑器中，您可能希望提供多种内联样式行为，这些行为远远超出了bold/italic/underline(粗体/斜体/下划线)基础。
+例如，您可能希望支持颜色，字体系列，字体大小等更多内容。
+此外，您想要的样式可能会重叠或互斥。
 
-The [Rich Editor](http://github.com/facebook/draft-js/tree/master/examples/draft-0-10-0/rich) and
-[Colorful Editor](http://github.com/facebook/draft-js/tree/master/examples/draft-0-10-0/color)
-examples demonstrate complex inline style behavior in action.
+[Rich Editor](http://github.com/facebook/draft-js/tree/master/examples/draft-0-10-0/rich) 和
+[Colorful Editor](http://github.com/facebook/draft-js/tree/master/examples/draft-0-10-0/color)示例演示了实际的复杂内联样式行为。
 
-## Model
+## 模型
 
-Within the Draft model, inline styles are represented at the character level,
-using an immutable `OrderedSet` to define the list of styles to be applied to
-each character. These styles are identified by string. (See [CharacterMetadata](/docs/api-reference-character-metadata)
-for details.)
+在Draft模型中，内联样式在字符级别表示，使用不可变的`OrderedSet`定义要应用于每个字符的样式列表。
+这些样式由字符串标识。
+（有关详细信息，请参见[CharacterMetadata](/docs/api-reference-character-metadata)。）
 
-For example, consider the text "Hello **world**". The first six characters of
-the string are represented by the empty set, `OrderedSet()`. The final five
-characters are represented by `OrderedSet.of('BOLD')`. For convenience, we can
-think of these `OrderedSet` objects as arrays, though in reality we aggressively
-reuse identical immutable objects.
+例如，思考文本"Hello **world**"。
+字符串的前六个字符由空集`OrderedSet()`表示。
+最后五个字符由`OrderedSet.of（'BOLD'）`表示。
+为了方便起见，我们可以将这些`OrderedSet`对象视为数组，尽管实际上我们会积极地重复使用相同的immutable对象
 
-In essence, our styles are:
+本质上，我们的风格是：
 
 ```js
 [
@@ -38,14 +34,12 @@ In essence, our styles are:
 ];
 ```
 
-## Overlapping Styles
+## 重叠样式
 
-Now let's say that we wish to make the middle range of characters italic as well:
-He*llo* ***wo*rld**. This operation can be performed via the
-[Modifier](/docs/api-reference-modifier) API.
+现在让我们说，我们也希望使中间字符范围变为斜体：He*llo* ***wo*rld**。
+可以通过[Modifier](/docs/api-reference-modifier) API执行此操作
 
-The end result will accommodate the overlap by including `'ITALIC'` in the
-relevant `OrderedSet` objects as well.
+最终结果还将通过在相关`OrderedSet`对象中包含`'ITALIC'`来容纳重叠。
 
 ```js
 [
@@ -60,26 +54,20 @@ relevant `OrderedSet` objects as well.
 ];
 ```
 
-When determining how to render inline-styled text, Draft will identify
-contiguous ranges of identically styled characters and render those characters
-together in styled `span` nodes.
+在确定如何呈现内联样式的文本时，Draft将识别相同样式的字符的连续范围，并将这些字符一起显示在样式化的`span`节点中。
 
-## Mapping a style string to CSS
+## 将样式字符串映射到CSS
 
-By default, `Editor` provides support for a basic list of inline styles:
-`'BOLD'`, `'ITALIC'`, `'UNDERLINE'`, and `'CODE'`. These are mapped to plain CSS
-style objects, which are used to apply styles to the relevant ranges.
+默认情况下，`Editor`支持内联样式的基本列表：`'BOLD'`, `'ITALIC'`, `'UNDERLINE'`, and `'CODE'`。
+这些映射到普通CSS样式对象，用于将样式应用于相关范围
 
-For your editor, you may define custom style strings to include with these
-defaults, or you may override the default style objects for the basic styles.
+对于您的编辑器，您可以定义自定义样式字符串以包含这些默认值，或者可以覆盖基本样式的默认样式对象。
 
-Within your `Editor` use case, you may provide the `customStyleMap` prop
-to define your style objects. (See
-[Colorful Editor](http://github.com/facebook/draft-js/tree/master/examples/draft-0-10-0/color)
-for a live example.)
+在您的`Editor`用例中，您可以提供`customStyleMap`属性来定义样式对象。
+（有关实际示例，请参见[Colorful Editor](http://github.com/facebook/draft-js/tree/master/examples/draft-0-10-0/color)。）
 
-For example, you may want to add a `'STRIKETHROUGH'` style. To do so, define a
-custom style map:
+例如，您可能想要添加`'STRIKETHROUGH'`样式。
+为此，定义一个自定style map：
 
 ```js
 import {Editor} from 'draft-js';
@@ -104,5 +92,5 @@ class MyEditor extends React.Component {
 }
 ```
 
-When rendered, the `textDecoration: line-through` style will be applied to all
-character ranges with the `STRIKETHROUGH` style.
+呈现时，`textDecoration: line-through`将`以STRIKETHROUGH`样式应用于所有字符范围。
+

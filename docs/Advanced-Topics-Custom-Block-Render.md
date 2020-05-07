@@ -1,20 +1,16 @@
 ---
 id: advanced-topics-custom-block-render-map
-title: Custom Block Rendering
+title: 自定义块渲染
 ---
 
-This article discusses how to customize Draft default block rendering.
-The block rendering is used to define supported block types and their respective
-renderers, as well as converting pasted content to known Draft block types.
+本文讨论如何自定义Draft默认块渲染。
+块渲染用于定义支持的块类型及其各自的渲染器，以及将粘贴的内容转换为已知的Draft块类型。
 
-When pasting content, or when calling
-[convertFromHTML](/docs/api-reference-data-conversion#convertfromhtml),
-Draft will convert pasted content to the respective block rendering type
-by matching the Draft block render map with the matched tag.
+在粘贴内容时，或在调用[convertFromHTML](/docs/api-reference-data-conversion#convertfromhtml)时，Draft通过将Draft块渲染图与匹配的标签进行匹配，将粘贴的内容转换为相应的块渲染类型。
 
-## Draft default block render map
+## Draft默认块渲染图
 
-| HTML element    | Draft block type                          |
+| HTML element    | Draft block type 块类型                         |
 | --------------- | ----------------------------------------- |
 | `<h1/>`         | header-one                                |
 | `<h2/>`         | header-two                                |
@@ -28,22 +24,20 @@ by matching the Draft block render map with the matched tag.
 | `<li/>`         | unordered-list-item,ordered-list-item\*\* |
 | `<div/>`        | unstyled\*\*\*                            |
 
-\*\* - Block type will be based on the parent `<ul/>` or `<ol/>`
+\*\* - 块类型将基于父 `<ul/>` 或 `<ol/>`
 
-\*\*\* - Any block that is not recognized by the block rendering mapping will be treated as unstyled
+\*\*\* - 块渲染映射无法识别的任何块将被视为unstyled(未样式化)
 
-## Configuring block render map
+## Configuring block render map 配置块渲染图
 
-Draft's default block render map can be overwritten by passing an
-[Immutable Map](http://facebook.github.io/immutable-js/docs/#/Map) to
-the editor blockRender props.
+可以通过将[Immutable Map](http://facebook.github.io/immutable-js/docs/#/Map)传递给编辑器`blockRender`props来覆盖Draft的默认块渲染图。
 
-_example of overwriting default block render map:_
+_覆盖默认块渲染图的示例:_
 
 ```js
-// The example below deliberately only allows
-// 'heading-two' as the only valid block type and
-// updates the unstyled element to also become a h2.
+//下面的示例故意只允许
+//'heading-two'是唯一有效的块类型，并且
+//将未样式化的元素也更新为h2。
 const blockRenderMap = Immutable.Map({
   'header-two': {
     element: 'h2'
@@ -64,11 +58,10 @@ class RichEditor extends React.Component {
   }
 }
 ```
+在某些情况下，我们只想添加新的块类型，而不是覆盖默认值。
+这可以通过使用`DefaultDraftBlockRenderMap`引用创建一个新的`blockRenderMap`来完成。
 
-There are cases where instead of overwriting the defaults, we only want to add new block types.
-This can be done by using the DefaultDraftBlockRenderMap reference to create a new blockRenderMap
-
-_example of extending default block render map:_
+_扩展默认块渲染图的示例：_
 
 ```js
 const blockRenderMap = Immutable.Map({
@@ -77,8 +70,9 @@ const blockRenderMap = Immutable.Map({
   }
 });
 
-// Include 'paragraph' as a valid block and updated the unstyled element but
-// keep support for other draft default block types
+//将'paragraph'包含为有效的块并更新了未设置样式的元素，但是
+//保持对其他draft默认块类型的支持
+
 const extendedBlockRenderMap = Draft.DefaultDraftBlockRenderMap.merge(blockRenderMap);
 
 class RichEditor extends React.Component {
@@ -92,12 +86,10 @@ class RichEditor extends React.Component {
   }
 }
 ```
+当Draft解析粘贴的HTML时，它将从HTML元素映射回Draft块类型。
+如果要指定其他映射到特定块类型的HTML元素，则可以将数组`aliasedElements`添加到块配置中。
 
-When Draft parses pasted HTML, it maps from HTML elements back into
-Draft block types. If you want to specify other HTML elements that map to a
-particular block type, you can add the array `aliasedElements` to the block config.
-
-_example of unstyled block type alias usage:_
+_未样式化的块类型别名用法示例：_
 
 ```js
 'unstyled': {
@@ -106,20 +98,18 @@ _example of unstyled block type alias usage:_
 }
 ```
 
-## Custom block wrappers
+## Custom block wrappers 自定义块包装
 
-By default, the html element is used to wrap block types. However, a react component
-can also be provided to the _blockRenderMap_ to wrap the EditorBlock.
+默认情况下，html元素用于包装块类型。
+但是，还可以将react组件提供给`blockRenderMap`来包装`EditorBlock`。
 
-During pasting, or when calling
-[convertFromHTML](/docs/api-reference-data-conversion#convertfromhtml),
-the html will be scanned for matching tag elements. A wrapper will be used when there is a definition for
-it on the _blockRenderMap_ to wrap that particular block type. For example:
+在粘贴期间，或在调用[convertFromHTML](/docs/api-reference-data-conversion#convertfromhtml)时，将扫描html以查找匹配的标记元素。
+当在`blockRenderMap`上有一个包装器定义该包装器时，将使用包装器。
+例如：
 
-Draft uses wrappers to wrap `<li/>` inside either `<ol/>` or `<ul/>`, but wrappers can also be used
-to wrap any other custom block type.
+Draft使用包装器将`<li />`包装在`<ol />`或`<ul />`内，但是包装器还可用于包装任何其他自定义块类型。
 
-_example of extending default block render map to use a react component for a custom block:_
+_扩展默认块渲染图以将react组件用于自定义块的示例_
 
 ```js
 class MyCustomBlock extends React.Component {
@@ -130,7 +120,7 @@ class MyCustomBlock extends React.Component {
   render() {
     return (
       <div className='MyCustomBlock'>
-        {/* here, this.props.children contains a <section> container, as that was the matching element */}
+        {/* 在这里，this.props.children包含一个<section>容器，因为它是匹配元素  */}
         {this.props.children}
       </div>
     );
@@ -139,14 +129,15 @@ class MyCustomBlock extends React.Component {
 
 const blockRenderMap = Immutable.Map({
   'MyCustomBlock': {
-    // element is used during paste or html conversion to auto match your component;
-    // it is also retained as part of this.props.children and not stripped out
+    //元素在粘贴或html转换期间用于自动匹配您的组件；
+    //它也保留为this.props.children的一部分，不会被剥离
     element: 'section',
     wrapper: <MyCustomBlock />,
   }
 });
 
-// keep support for other draft default block types and add our myCustomBlock type
+//保持对其他draft默认块类型的支持，并添加我们的`myCustomBlock`类型
+
 const extendedBlockRenderMap = Draft.DefaultDraftBlockRenderMap.merge(blockRenderMap);
 
 class RichEditor extends React.Component {

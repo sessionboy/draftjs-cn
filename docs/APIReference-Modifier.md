@@ -1,22 +1,19 @@
 ---
 id: api-reference-modifier
-title: Modifier
+title: Modifier 修改器
 ---
 
-The `Modifier` module is a static set of utility functions that encapsulate common
-edit operations on `ContentState` objects. It is highly recommended that you use
-these methods for edit operations.
+`Modifier`模块是一组实用函数的static set(静态集合)，其中封装了`ContentState`对象上的常见编辑操作。
+强烈建议您使用这些方法进行编辑操作
 
-These methods also take care of removing or modifying entity ranges appropriately,
-given the mutability types of any affected entities.
+给定任何受影响实体的可变性类型，这些方法还应适当地删除或修改实体范围。
 
-In each case, these methods accept `ContentState` objects with relevant
-parameters and return `ContentState` objects. The returned `ContentState`
-will be the same as the input object if no edit was actually performed.
+一般情况下，这些方法都接受带有相关参数的`ContentState`对象，并返回`ContentState`对象。
+如果未实际执行编辑，则返回的`ContentState`将与输入对象相同
 
-## Overview
+## 总览
 
-_Methods_
+_方法_
 
 <ul class="apiIndex">
   <li>
@@ -81,7 +78,7 @@ _Methods_
   </li>
 </ul>
 
-## Static Methods
+## 静态方法
 
 ### `replaceText()`
 
@@ -95,12 +92,9 @@ replaceText(
 ): ContentState
 ```
 
-Replaces the specified range of this `ContentState` with the supplied string,
-with the inline style and entity key applied to the entire inserted string.
+用提供的字符串替换此`ContentState`的指定范围，并将内联样式和实体关键字应用于整个插入的字符串。
 
-Example: On Facebook, when replacing `@abraham lincoln` with a mention of
-Abraham Lincoln, the entire old range is the target to replace and the mention
-entity should be applied to the inserted string.
+示例：在Facebook上，当用提及Abraham Lincoln的方式替换`@abraham lincoln`时，整个旧范围是要替换的目标，并且提及实体应应用于插入的字符串
 
 ### `insertText()`
 
@@ -114,9 +108,8 @@ insertText(
 ): ContentState
 ```
 
-Identical to `replaceText`, but enforces that the target range is collapsed
-so that no characters are replaced. This is only for convenience, since text
-edits are so often insertions rather than replacements.
+与`replaceText`相同，但强制将目标范围折叠，以便不替换任何字符。
+这只是为了方便，因为文本编辑经常是插入而不是替换
 
 ### `moveText()`
 
@@ -128,7 +121,7 @@ moveText(
 ): ContentState
 ```
 
-Moves the "removal" range to the "target" range, replacing the target text.
+将"removal(删除)"范围移动到"target"范围，替换目标文本。
 
 ### `replaceWithFragment()`
 
@@ -140,14 +133,11 @@ replaceWithFragment(
 ): ContentState
 ```
 
-A "fragment" is a section of a block map, effectively only an
-`OrderedMap<string, ContentBlock>` much the same as the full block map of a
-`ContentState` object.
+"fragment(片段)"是block map的一部分，实际上仅是`OrderedMap <string，ContentBlock>`与`ContentState`对象的完整block map大致相同。
 
-This method will replace the "target" range with the fragment.
+此方法将用fragment(片段)替换"target"范围。
 
-Example: When pasting content, we convert the paste into a fragment to be inserted
-into the editor, then use this method to add it.
+示例：粘贴内容时，我们将粘贴转换为片段以插入到编辑器中，然后使用此方法添加它。
 
 ### `removeRange()`
 
@@ -159,8 +149,8 @@ removeRange(
 ): ContentState
 ```
 
-Remove an entire range of text from the editor. The removal direction is important
-for proper entity deletion behavior.
+从编辑器中删除整个文本范围。
+删除方向对于正确的实体删除行为很重要
 
 ### `splitBlock()`
 
@@ -171,8 +161,8 @@ splitBlock(
 ): ContentState
 ```
 
-Split the selected block into two blocks. This should only be used if the
-selection is collapsed.
+将选定的块分成两个块。
+仅当selection处于折叠状态时才应使用
 
 ### `applyInlineStyle()`
 
@@ -184,7 +174,7 @@ applyInlineStyle(
 ): ContentState
 ```
 
-Apply the specified inline style to the entire selected range.
+将指定的嵌入式样式应用于整个选定范围(selected range)。  
 
 ### `removeInlineStyle()`
 
@@ -196,7 +186,7 @@ removeInlineStyle(
 ): ContentState
 ```
 
-Remove the specified inline style from the entire selected range.
+从整个选定范围中删除指定的嵌入式内联样式。
 
 ### `setBlockType()`
 
@@ -208,7 +198,7 @@ setBlockType(
 ): ContentState
 ```
 
-Set the block type for all selected blocks.
+设置所有选定块的块类型。
 
 ### `setBlockData()`
 
@@ -220,7 +210,7 @@ setBlockData(
 ): ContentState
 ```
 
-Set the block data for all selected blocks.
+设置所有选定块的块数据。
 
 ### `mergeBlockData()`
 
@@ -231,8 +221,7 @@ mergeBlockData(
   blockData: Map<any, any>
 ): ContentState
 ```
-
-Update block data for all selected blocks.
+更新所有选定块的块数据。
 
 ### `applyEntity()`
 
@@ -244,4 +233,5 @@ applyEntity(
 ): ContentState
 ```
 
-Apply an entity to the entire selected range, or remove all entities from the range if `entityKey` is `null`.
+将实体应用于整个选定范围，或者如果`entityKey`为`null`，则从该范围中删除所有实体
+

@@ -1,23 +1,21 @@
 ---
 id: api-reference-content-block
-title: ContentBlock
+title: ContentBlock 内容块
 ---
 
-`ContentBlock` is an Immutable
-[Record](http://facebook.github.io/immutable-js/docs/#/Record/Record) that
-represents the full state of a single block of editor content, including:
+ContentBlock是Immutable
+[Record](http://facebook.github.io/immutable-js/docs/#/Record/Record)，表示单个编辑器内容块的完整状态，包括
 
-- Plain text contents of the block
-- Type, e.g. paragraph, header, list item
-- Entity, inline style, and depth information
+- 块的纯文本内容
+- 类型, 例如paragraph, header, list item (段落，标题，列表项)
+- 实体，内联样式和depth(深度)信息
 
-A `ContentState` object contains an `OrderedMap` of these `ContentBlock` objects,
-which together comprise the full contents of the editor.
+`ContentState`对象包含这些`ContentBlock`对象的`OrderedMap`，它们一起构成编辑器的全部内容。
 
-`ContentBlock` objects are largely analogous to block-level HTML elements like
-paragraphs and list items. The available types are:
+`ContentBlock`对象在很大程度上类似于块级HTML元素，例如段落和列表项。
+可用的类型有：
 
-- unstyled
+- unstyled  (未样式化)
 - paragraph
 - header-one
 - header-two
@@ -25,36 +23,29 @@ paragraphs and list items. The available types are:
 - header-four
 - header-five
 - header-six
-- unordered-list-item
-- ordered-list-item
-- blockquote
-- code-block
-- atomic
+- unordered-list-item  (无序列表)
+- ordered-list-item (有序列表)
+- blockquote (块引用)
+- code-block (代码块)
+- atomic (原子)
 
-New `ContentBlock` objects may be created directly using the constructor.
-Expected Record values are detailed below.
+可以使用构造函数直接创建新的`ContentBlock`对象。
+预期记录值将在下面详细说明。
 
-### Representing styles and entities
+### 表示样式和实体
 
-The `characterList` field is an immutable `List` containing a `CharacterMetadata`
-object for every character in the block. This is how we encode styles and
-entities for a given block.
+`characterList`字段是一个immutable `List`，其中包含该块中每个字符的`CharacterMetadata`对象。
+这就是我们如何编码给定块的样式和实体。
 
-By making heavy use of immutability and data persistence for these lists and
-`CharacterMetadata` objects, edits to the content generally have little impact
-on the memory footprint of the editor.
+通过大量使用这些列表和`CharacterMetadata`对象的不变性和数据持久性，对内容的编辑通常对编辑器的内存占用影响很小。
 
-By encoding inline styles and entities together in this way, a function that
-performs edits on a `ContentBlock` can perform slices, concats, and other List
-methods on a single `List` object.
+通过以这种方式一起编码内联样式和实体，在`ContentBlock上`执行编辑的函数可以在单个List对象上执行slices, concats和其他`List`方法。
 
-When creating a new `ContentBlock` containing `text` and without `characterList`
-it then will default to a `characterList` with empty `CharacterMetadata` for the
-supplied text.
+当创建一个新的包含文本但不包含`characterList`的`ContentBlock`时，它将默认为提供的文本带有空`CharacterMetadata`的`characterList`。
 
-## Overview
+## 总览
 
-_Methods_
+_方法_
 
 <ul class="apiIndex">
   <li>
@@ -114,12 +105,11 @@ _Methods_
   </li>
 </ul>
 
-_Properties_
+_属性_
 
-> Note
+> 注意
 >
-> Use [Immutable Map API](http://facebook.github.io/immutable-js/docs/#/Map)
-> for the `ContentBlock` constructor or to set properties.
+> 将[Immutable Map API](http://facebook.github.io/immutable-js/docs/#/Map)用于`ContentBlock`构造函数或设置属性
 
 <ul class="apiIndex">
   <li>
@@ -154,7 +144,7 @@ _Properties_
   </li>
 </ul>
 
-## Methods
+## 方法
 
 ### `getKey()`
 
@@ -162,35 +152,35 @@ _Properties_
 getKey(): string
 ```
 
-Returns the string key for this `ContentBlock`. Block keys are alphanumeric string. It is recommended to use `generateRandomKey` to generate block keys.
+返回此`ContentBlock`的字符串键。
+Block keys(块的键)是字母数字字符串。
+建议使用`generateRandomKey`生成块密钥。
 
 ### `getType()`
 
 ```js
 getType(): DraftBlockType
 ```
-
-Returns the type for this `ContentBlock`. Type values are largely analogous to
-block-level HTML elements.
+返回此`ContentBlock`的类型。
+类型值在很大程度上类似于块级HTML元素。
 
 ### `getText()`
 
 ```js
 getText(): string
 ```
-
-Returns the full plaintext for this `ContentBlock`. This value does not contain
-any styling, decoration, or HTML information.
+返回此`ContentBlock`的纯文本。
+此值不包含任何样式，装饰或HTML信息。
 
 ### `getCharacterList()`
 
 ```js
 getCharacterList(): List<CharacterMetadata>
 ```
+返回一个`CharacterMetadata`对象的immutable `List`(不可变列表)，`ContentBlock`中的每个字符。
+（有关详细信息，请参见[CharacterMetadata](/docs/api-reference-character-metadata)。）
 
-Returns an immutable `List` of `CharacterMetadata` objects, one for each character in the `ContentBlock`. (See [CharacterMetadata](/docs/api-reference-character-metadata) for details.)
-
-This `List` contains all styling and entity information for the block.
+该列表包含该块的所有样式和实体信息。
 
 ### `getLength()`
 
@@ -198,17 +188,17 @@ This `List` contains all styling and entity information for the block.
 getLength(): number
 ```
 
-Returns the length of the plaintext for the `ContentBlock`.
+返回`ContentBlock`的纯文本长度。
 
-This value uses the standard JavaScript `length` property for the string, and is therefore not Unicode-aware -- surrogate pairs will be counted as two characters.
+该值使用标准的JavaScript `length`属性作为字符串，因此不支持Unicode-代理对将被视为两个字符。
 
 ### `getDepth()`
 
 ```js
 getDepth(): number
 ```
-
-Returns the depth value for this block, if any. This is currently used only for list items.
+返回此块的depth value(深度值)（如果有）。
+当前仅用于列表项。
 
 ### `getInlineStyleAt()`
 
@@ -216,7 +206,7 @@ Returns the depth value for this block, if any. This is currently used only for 
 getInlineStyleAt(offset: number): DraftInlineStyle
 ```
 
-Returns the `DraftInlineStyle` value (an `OrderedSet<string>`) at a given offset within this `ContentBlock`.
+返回此`ContentBlock`中给定偏移量的`DraftInlineStyle`值（一个`OrderedSet <string>`）。
 
 ### `getEntityAt()`
 
@@ -224,7 +214,7 @@ Returns the `DraftInlineStyle` value (an `OrderedSet<string>`) at a given offset
 getEntityAt(offset: number): ?string
 ```
 
-Returns the entity key value (or `null` if none) at a given offset within this `ContentBlock`.
+返回此`ContentBlock`中给定偏移量的实体键值（如果没有，则返回`null`）
 
 ### `getData()`
 
@@ -232,7 +222,7 @@ Returns the entity key value (or `null` if none) at a given offset within this `
 getData(): Map<any, any>
 ```
 
-Returns block-level metadata.
+返回块级元数据。
 
 ### `findStyleRanges()`
 
@@ -243,7 +233,7 @@ findStyleRanges(
 ): void
 ```
 
-Executes a callback for each contiguous range of styles within this `ContentBlock`.
+为该`ContentBlock`中的每个连续样式范围执行一个回调。
 
 ### `findEntityRanges()`
 
@@ -253,36 +243,34 @@ findEntityRanges(
   callback: (start: number, end: number) => void
 ): void
 ```
+为该`ContentBlock`中每个连续范围的实体执行一个回调。
 
-Executes a callback for each contiguous range of entities within this `ContentBlock`.
+## 属性
 
-## Properties
-
-> Note
+> 注意
 >
-> Use [Immutable Map API](http://facebook.github.io/immutable-js/docs/#/Map)
-> for the `ContentBlock` constructor or to set properties.
+> 将[Immutable Map API](http://facebook.github.io/immutable-js/docs/#/Map)用于`ContentBlock`构造函数或设置属性。
 
 ### `key`
 
-See `getKey()`.
+查看`getKey()`.
 
 ### `text`
 
-See `getText()`.
+查看`getText()`.
 
 ### `type`
 
-See `getType()`.
+查看`getType()`.
 
 ### `characterList`
 
-See `getCharacterList()`.
+查看`getCharacterList()`.
 
 ### `depth`
 
-See `getDepth()`.
+查看`getDepth()`.
 
 ### `data`
 
-See `getData()`.
+查看`getData()`.

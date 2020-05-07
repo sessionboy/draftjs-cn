@@ -1,37 +1,25 @@
 ---
 id: advanced-topics-block-components
-title: Custom Block Components
+title: 自定义块组件
 ---
 
-Draft is designed to solve problems for straightforward rich text interfaces
-like comments and chat messages, but it also powers richer editor experiences
-like [Facebook Notes](https://www.facebook.com/notes/).
+Draft旨在解决直接的富文本界面（如评论和聊天消息）的问题，但它也为诸如[Facebook Notes](https://www.facebook.com/notes/)之类的更丰富的编辑器体验提供支持。
 
-Users can embed images within their Notes, either loading from their existing
-Facebook photos or by uploading new images from the desktop. To that end,
-the Draft framework supports custom rendering at the block level, to render
-content like rich media in place of plain text.
+用户可以从其现有的Facebook照片中加载图像，也可以通过从桌面上载新图像来将图像嵌入Notes中。
+为此，Draft框架支持在块级别进行自定义呈现，以呈现诸如富媒体之类的内容来代替纯文本。
 
-The [TeX editor](https://github.com/facebook/draft-js/tree/master/examples/draft-0-10-0/tex)
-in the Draft repository provides a live example of custom block rendering, with
-TeX syntax translated on the fly into editable embedded formula rendering via the
-[KaTeX library](https://khan.github.io/KaTeX/).
+Draft存储库中的[TeX editor](https://github.com/facebook/draft-js/tree/master/examples/draft-0-10-0/tex)提供了一个自定义块渲染的实时示例，其中TeX语法通过[KaTeX library](https://khan.github.io/KaTeX/)即时转换为可编辑的嵌入式公式渲染。
 
-A [media example](https://github.com/facebook/draft-js/tree/master/examples/draft-0-10-0/media) is also
-available, which showcases custom block rendering of audio, image, and video.
+还提供了一个[media example](https://github.com/facebook/draft-js/tree/master/examples/draft-0-10-0/media)，展示了音频，图像和视频的自定义块渲染
 
-By using a custom block renderer, it is possible to introduce complex rich
-interactions within the frame of your editor.
+通过使用自定义块渲染器，可以在编辑器框架内引入复杂的丰富交互。
 
-## Custom Block Components
+## 自定义块组件
 
-Within the `Editor` component, one may specify the `blockRendererFn` prop.
-This prop function allows a higher-level component to define custom React
-rendering for `ContentBlock` objects, based on block type, text, or other
-criteria.
+在`Editor`组件中，可以指定`blockRendererFn`属性。
+该prop函数允许更高级别的组件
 
-For instance, we may wish to render `ContentBlock` objects of type `'atomic'`
-using a custom `MediaComponent`.
+例如，我们可能希望使用自定义`MediaComponent`渲染`'atomic'`(原子)类型的`ContentBlock`对象
 
 ```js
 function myBlockRenderer(contentBlock) {
@@ -47,7 +35,7 @@ function myBlockRenderer(contentBlock) {
   }
 }
 
-// Then...
+// 然后...
 import {Editor} from 'draft-js';
 class EditorWithMedia extends React.Component {
   ...
@@ -57,33 +45,22 @@ class EditorWithMedia extends React.Component {
 }
 ```
 
-If no custom renderer object is returned by the `blockRendererFn` function,
-`Editor` will render the default `EditorBlock` text block component.
+如果`blockRendererFn`函数未返回任何自定义渲染器对象，则`Editor`将渲染默认的`EditorBlock`文本块组件。
 
-The `component` property defines the component to be used, while the optional
-`props` object includes props that will be passed through to the rendered
-custom component via the `props.blockProps` sub property object. In addition,
-the optional `editable` property determines whether the custom component is
-`contentEditable`.
+`component`属性定义要使用的组件，而可选的props对象包括将通过`props.blockProps`子属性对象传递给呈现的自定义组件的props。
+另外，可选的`editable`属性确定自定义组件是否为`contentEditable`。
 
-It is strongly recommended that you use `editable: false` if your custom
-component will not contain text.
+强烈建议您使用`editable：false`，如果您的自定义组件不包含文本。
 
-If your component contains text as provided by your `ContentState`, your custom
-component should compose an `EditorBlock` component. This will allow the
-Draft framework to properly maintain cursor behavior within your contents.
+如果您的组件包含`ContentState`提供的文本，则您的自定义组件应组成一个`EditorBlock`组件。
+这将允许Draft框架在您的内容中正确维护光标行为。
 
-By defining this function within the context of a higher-level component,
-the props for this custom component may be bound to that component, allowing
-instance methods for custom component props.
+通过在更高级别的组件的context中定义此函数，可以将此定制组件的props绑定到该组件，从而允许使用定制组件props的实例方法。
 
-## Defining custom block components
+## 定义自定义块组件
 
-Within `MediaComponent`, the most likely use case is that you will want to
-retrieve entity metadata to render your custom block. You may apply an entity
-key to the text within a `'atomic'` block during `EditorState` management,
-then retrieve the metadata for that key in your custom component `render()`
-code.
+在`MediaComponent`中，最可能的用例是您将希望检索实体元数据以呈现您的自定义块。
+您可以在`EditorState`管理期间将实体键应用于`'atomic'`(原子)块中的文本，然后在自定义组件`render()`代码中检索该键的元数据。
 
 ```js
 class MediaComponent extends React.Component {
@@ -91,39 +68,27 @@ class MediaComponent extends React.Component {
     const {block, contentState} = this.props;
     const {foo} = this.props.blockProps;
     const data = contentState.getEntity(block.getEntityAt(0)).getData();
-    // Return a <figure> or some other content using this data.
+    // 使用此数据返回<figure>或其他一些内容。
   }
 }
 ```
 
-The `ContentBlock` object and the `ContentState` record are made available
-within the custom component, along with the props defined at the top level. By
-extracting entity information from the `ContentBlock` and the `Entity` map, you
-can obtain the metadata required to render your custom component.
+`ContentBlock`对象和`ContentState`记录和在顶层定义的props一起，在自定义组件中可用。
+通过从`ContentBlock`和`Entity` map (实体映射) 中提取实体信息，可以获取呈现自定义组件所需的元数据。
 
-_Retrieving the entity from the block is admittedly a bit of an awkward API,
-and is worth revisiting._
+_从块中检索实体确实有点笨拙的API，值得再次探讨_
 
-## Recommendations and other notes
 
-If your custom block renderer requires mouse interaction, it is often wise
-to temporarily set your `Editor` to `readOnly={true}` during this
-interaction. In this way, the user does not trigger any selection changes within
-the editor while interacting with the custom block. This should not be a problem
-with respect to editor behavior, since interacting with your custom block
-component is most likely mutually exclusive from text changes within the editor.
+## 建议和其他说明
 
-The recommendation above is especially important for custom block renderers
-that involve text input, like the TeX editor example.
+如果您的自定义块渲染器需要鼠标交互，通常明智的做法是在交互过程中将您的编辑器临时设置为`readOnly={true}`。
+这样，用户在与自定义块进行交互时不会在编辑器内触发任何选择更改。
+就编辑器行为而言，这应该不是问题，因为与自定义块组件进行交互很可能与编辑器中的文本更改互斥。
 
-It is also worth noting that within the Facebook Notes editor, we have not
-tried to perform any specific SelectionState rendering or management on embedded
-media, such as rendering a highlight on an embedded photo when selecting it.
-This is in part because of the rich interaction provided on the media
-itself, with resize handles and other controls exposed to mouse behavior.
+上面的建议对于涉及文本输入的自定义块渲染器尤其重要，例如TeX编辑器示例。
 
-Since an engineer using Draft has full awareness of the selection state
-of the editor and full control over native Selection APIs, it would be possible
-to build selection behavior on static embedded media if desired. So far, though,
-we have not tried to solve this at Facebook, so we have not packaged solutions
-for this use case into the Draft project at this time.
+还值得注意的是，在Facebook Notes编辑器中，我们没有尝试在嵌入式媒体上执行任何特定的SelectionState渲染或管理，例如在选择嵌入式照片时渲染高亮。
+部分原因是媒体本身提供了丰富的交互作用，而调整大小的手柄和其他控件则暴露于鼠标行为。
+
+由于使用Draft的工程师完全了解编辑器的选择状态并完全掌控原生的Selection API，因此，如果需要，可以在静态嵌入式媒体上构建选择行为。
+不过，到目前为止，我们还没有尝试在Facebook上解决此问题，因此我们目前尚未将针对该用例的解决方案打包到Draft项目中。

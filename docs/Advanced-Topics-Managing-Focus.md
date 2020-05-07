@@ -1,36 +1,25 @@
 ---
 id: advanced-topics-managing-focus
-title: Managing Focus
+title: 管理焦点
 ---
 
-Managing text input focus can be a tricky task within React components. The browser
-focus/blur API is imperative, so setting or removing focus via declarative means
-purely through `render()` tends to feel awkward and incorrect, and it requires
-challenging attempts at controlling focus state.
+在React组件中，管理文本输入焦点可能是一项棘手的任务。
+浏览器的focus/blur API势在必行，因此纯粹通过`render()`声明方式设置或删除焦点会感到尴尬和不正确，并且需要尝试挑战性地​​控制焦点状态
 
-With that in mind, at Facebook we often choose to expose `focus()` methods
-on components that wrap text inputs. This breaks the declarative paradigm,
-but it also simplifies the work needed for engineers to successfully manage
-focus behavior within their apps.
+考虑到这一点，在Facebook我们经常选择在包装文本输入的组件上公开`focus()`方法。
+这打破了声明式范例，但也简化了工程师成功管理其应用程序内的焦点行为所需的工作。
 
-The `Editor` component follows this pattern, so there is a public `focus()`
-method available on the component. This allows you to use a ref within your
-higher-level component to call `focus()` directly on the component when needed.
+`Editor`组件遵循此模式，因此该组件上有一个public(公开的) `focus()`方法。
+这样，您就可以在更高级别的组件中使用ref来在需要时直接在组件上调用`focus()`。
 
-The event listeners within the component will observe focus changes and
-propagate them through `onChange` as expected, so state and DOM will remain
-correctly in sync.
+组件中的事件侦听器将观察焦点更改，并按预期方式通过`onChange`传播它们，因此状态和DOM将正确保持同步。
 
-## Translating container clicks to focus
+## 转换容器点击以使编辑器聚焦
 
-Your higher-level component will most likely wrap the `Editor` component in a
-container of some kind, perhaps with padding to style it to match your app.
+您的更高级别的组件很可能会将`Editor`组件包装在某种类型的容器中，也许可以通过填充使其样式化以匹配您的应用程序。
 
-By default, if a user clicks within this container but outside of the rendered
-`Editor` while attempting to focus the editor, the editor will have no awareness
-of the click event. It is therefore recommended that you use a click listener
-on your container component, and use the `focus()` method described above to
-apply focus to your editor.
+默认情况下，如果用户在尝试让编辑器在此容器内聚焦，但却在呈现的编辑器之外点击，则该编辑器将不会触发click事件。
+因此，建议您在容器组件上使用单击侦听器，并使用上述的`focus()`方法将焦点应用于编辑器。
 
-The [plaintext editor example](https://github.com/facebook/draft-js/tree/master/examples/draft-0-10-0/plaintext),
-for instance, uses this pattern.
+例如，[纯文本编辑器示例](https://github.com/facebook/draft-js/tree/master/examples/draft-0-10-0/plaintext)使用此模式。
+

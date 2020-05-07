@@ -1,32 +1,25 @@
 ---
 id: api-reference-character-metadata
-title: CharacterMetadata
+title: CharacterMetadata 字符元数据
 ---
 
-`CharacterMetadata` is an Immutable
-[Record](http://facebook.github.io/immutable-js/docs/#/Record/Record) that
-represents inline style and entity information for a single character.
+`CharacterMetadata`是一个Immutable
+[Record](http://facebook.github.io/immutable-js/docs/#/Record/Record)，代表单个字符的内联样式和实体信息。
 
-`CharacterMetadata` objects are aggressively pooled and shared. If two characters
-have the same inline style and entity, they are represented with the same
-`CharacterMetadata` object. We therefore need only as many objects as combinations
-of utilized inline style sets with entity keys, keeping our memory footprint
-small even as the contents grow in size and complexity.
+`CharacterMetadata`对象被主动合并和共享。
+如果两个字符具有相同的内联样式和实体，则它们将使用相同的`CharacterMetadata`对象表示。
+因此，我们仅需要与利用内联样式集和实体键的组合一样多的对象，即使内容的大小和复杂性增加，也可以使我们的内存占用空间较小。
 
-To that end, you should create or apply changes to `CharacterMetadata` objects
-via the provided set of static methods, which will ensure that pooling is utilized.
+为此，您应该通过提供的一组静态方法创建或将更改应用于`CharacterMetadata`对象，这将确保利用pooling。
 
-Most Draft use cases are unlikely to use these static methods, since most common edit
-operations are already implemented and available via utility modules. The getter
-methods, however, may come in handy at render time.
+大多数草稿用例不太可能使用这些静态方法，因为大多数常用的编辑操作已经实现，并且可以通过实用程序模块使用。
+但是，`getter`方法可能会在渲染时派上用场
 
-See the API reference on
-[ContentBlock](/docs/api-reference-content-block#representing-styles-and-entities)
-for information on how `CharacterMetadata` is used within `ContentBlock`.
+有关如何在`ContentBlock`中使用`CharacterMetadata`的信息，请参阅[ContentBlock](/docs/api-reference-content-block#representing-styles-and-entities)上的API参考。
 
-## Overview
+## 总览
 
-_Static Methods_
+_静态方法_
 
 <ul class="apiIndex">
   <li>
@@ -51,7 +44,7 @@ _Static Methods_
   </li>
 </ul>
 
-_Methods_
+_方法_
 
 <ul class="apiIndex">
   <li>
@@ -71,24 +64,21 @@ _Methods_
   </li>
 </ul>
 
-## Static Methods
+## 静态方法
 
-Under the hood, these methods will utilize pooling to return a matching object,
-or return a new object if none exists.
+在幕后，这些方法将利用pooling来返回匹配的对象，或者如果不存在则返回新的对象。
 
 ### `create()`
 
 ```js
 static create(config?: CharacterMetadataConfig): CharacterMetadata
 ```
+根据提供的配置生成`CharacterMetadata`对象。
+应该使用该函数代替构造函数。
 
-Generates a `CharacterMetadata` object from the provided configuration. This
-function should be used in lieu of a constructor.
-
-The configuration will be used to check whether a pooled match for this
-configuration already exists. If so, the pooled object will be returned.
-Otherwise, a new `CharacterMetadata` will be pooled for this configuration,
-and returned.
+该配置将用于检查此配置的pooled匹配项是否已经存在。
+如果是这样，则将返回合并的对象。
+否则，将为此配置合并一个新的`CharacterMetadata`并返回
 
 ### `applyStyle()`
 
@@ -98,8 +88,7 @@ static applyStyle(
   style: string
 ): CharacterMetadata
 ```
-
-Apply an inline style to this `CharacterMetadata`.
+将内联样式应用于此`CharacterMetadata`。
 
 ### `removeStyle()`
 
@@ -109,8 +98,7 @@ static removeStyle(
   style: string
 ): CharacterMetadata
 ```
-
-Remove an inline style from this `CharacterMetadata`.
+从此`CharacterMetadata`中删除一个内联样式。
 
 ### `applyEntity()`
 
@@ -121,10 +109,9 @@ static applyEntity(
 ): CharacterMetadata
 ```
 
-Apply an entity key -- or provide `null` to remove an entity key -- on this
-`CharacterMetadata`.
+在此`CharacterMetadata`上应用entity key-或提供`null`以删除entity key
 
-## Methods
+## 方法
 
 ### `getStyle()`
 
@@ -132,16 +119,14 @@ Apply an entity key -- or provide `null` to remove an entity key -- on this
 getStyle(): DraftInlineStyle
 ```
 
-Returns the `DraftInlineStyle` for this character, an `OrderedSet` of strings
-that represents the inline style to apply for the character at render time.
+返回此字符的`DraftInlineStyle`，这是一个`OrderedSet`字符串，表示要在渲染时应用于该字符的嵌入式样式。
 
 ### `hasStyle()`
 
 ```js
 hasStyle(style: string): boolean
 ```
-
-Returns whether this character has the specified style.
+返回此字符是否具有指定的样式。
 
 ### `getEntity()`
 
@@ -149,11 +134,8 @@ Returns whether this character has the specified style.
 getEntity(): ?string
 ```
 
-Returns the entity key (if any) for this character, as mapped to the global set of
-entities tracked by the [`Entity`](https://github.com/facebook/draft-js/blob/master/src/model/entity/DraftEntity.js)
-module.
+返回此字符的entity key(实体键)（如果有的话），映射到[`Entity`](https://github.com/facebook/draft-js/blob/master/src/model/entity/DraftEntity.js)模块跟踪的实体的全局集合。
 
-By tracking a string key here, we can keep the corresponding metadata separate
-from the character representation.
+通过在此处跟踪字符串键，我们可以将相应的元数据与字符表示形式分开
 
-If null, no entity is applied for this character.
+如果为null，则没有实体适用于此字符。

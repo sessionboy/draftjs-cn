@@ -1,26 +1,19 @@
 ---
 id: quickstart-api-basics
-title: API Basics
+title: API基础
 ---
+本文档概述了Draft API 的基础。 也可以使用一个[工作示例](https://github.com/facebook/draft-js/tree/master/examples/draft-0-10-0/plaintext)。
 
-This document provides an overview of the basics of the `Draft` API. A
-[working example](https://github.com/facebook/draft-js/tree/master/examples/draft-0-10-0/plaintext)
-is also available to follow along.
+## 受控输入
 
-## Controlled Inputs
+`Editor` React组件构建为受控的`ContentEditable`组件，目的是提供以熟悉的React受控输入API为模型的顶级API。
 
-The `Editor` React component is built as a controlled ContentEditable component,
-with the goal of providing a top-level API modeled on the familiar React
-_controlled input_ API.
+作为简短的回顾，受控输入涉及两个关键部分：
 
-As a brief refresher, controlled inputs involve two key pieces:
+1. 代表输入状态的值
+2. 一个onChange prop函数，用于接收输入的更新
 
-1. A _value_ to represent the state of the input
-2. An _onChange_ prop function to receive updates to the input
-
-This approach allows the component that composes the input to have strict
-control over the state of the input, while still allowing updates to the DOM
-to provide information about the text that the user has written.
+这种方法允许组成输入的组件对输入的状态进行严格控制，同时仍允许对DOM进行更新以提供有关用户编写的文本的信息。
 
 ```js
 class MyInput extends React.Component {
@@ -35,25 +28,18 @@ class MyInput extends React.Component {
 }
 ```
 
-The top-level component can maintain control over the input state via this
-`value` state property.
+顶层组件可以通过此`value`状态属性维持对输入状态的控制 。
 
-## Controlling Rich Text
+## 控制富文本
 
-In a React rich text scenario, however, there are two clear problems:
+但是，在React RTF场景中，存在两个明显的问题：
 
-1. A string of plaintext is insufficient to represent the complex state of a rich editor.
-2. There is no such `onChange` event available for a ContentEditable element.
+1. 纯文本字符串不足以表示富编辑器的复杂状态。
+2. 没有这样的`onChange`事件可用于`ContentEditable`元素 
 
-State is therefore represented as a single immutable
-[EditorState](/docs/api-reference-editor-state) object, and
-`onChange` is implemented within the `Editor` core to provide this state
-value to the top level.
+因此，状态表示为单个不可变的[EditorState](/docs/api-reference-editor-state)对象，并且`onChange`在`Editor`核心内实现，以将该状态值提供给顶层。
 
-The `EditorState` object is a complete snapshot of the state of the editor,
-including contents, cursor, and undo/redo history. All changes to content and
-selection within the editor will create new `EditorState` objects. Note that
-this remains efficient due to data persistence across immutable objects.
+`EditorState`对象是编辑器状态的完整快照，包括内容，光标和撤消/重做历史。 编辑器中对内容和选择的所有更改将创建新的`EditorState`对象。 注意，由于跨不可变对象的数据持久性，这仍然有效。
 
 ```js
 import {Editor, EditorState} from 'draft-js';
@@ -73,4 +59,5 @@ class MyEditor extends React.Component {
 }
 ```
 
-For any edits or selection changes that occur in the editor DOM, your `onChange` handler will execute with the latest `EditorState` object based on those changes.
+对于编辑器DOM中发生的任何编辑或选择更改，您的`onChange`处理程序将`EditorState`根据这些更改对最新对象执行。
+

@@ -1,93 +1,65 @@
 ---
 id: advanced-topics-issues-and-pitfalls
-title: Issues and Pitfalls
+title: 问题和陷阱
 ---
 
-This article addresses some known issues with the Draft editor framework, as
-well as some common pitfalls that we have encountered while using the framework
-at Facebook.
+本文讨论了草稿编辑器框架的一些已知问题，以及我们在Facebook上使用该框架时遇到的一些常见陷阱。
 
-## Common Pitfalls
+## 常见陷阱
 
-### Delayed state updates
+### 延迟状态更新
 
-A common pattern for unidirectional data management is to batch or otherwise
-delay updates to data stores, using a setTimeout or another mechanism. Stores are
-updated, then emit changes to the relevant React components to propagate
-re-rendering.
+单向数据管理的常见模式是使用`setTimeout`或其他机制批量更新或以其他方式延迟对数据存储的更新。
+更新stores，然后将更改发送到相关的React组件以传播重新渲染。
 
-When delays are introduced to a React application with a Draft editor, however,
-it is possible to cause significant interaction problems. This is because the
-editor expects immediate updates and renders that stay in sync with the user's typing
-behavior. Delays can prevent updates from being propagated through the editor
-component tree, which can cause a disconnect between keystrokes and updates.
+但是，当使用草稿编辑器将延迟引入到React应用程序时，可能会导致重大的交互问题。
+这是因为编辑器希望立即进行更新，并且呈现与用户的键入行为保持同步的渲染。
+延迟可以阻止更新通过编辑器组件树传播，这可能导致击键和更新之间的断开连接。
 
-To avoid this while still using a delaying or batching mechanism, you should
-separate the delay behavior from your `Editor` state propagation. That is,
-you must always allow your `EditorState` to propagate to your `Editor`
-component without delay, and independently perform batched updates that do
-not affect the state of your `Editor` component.
+为了在仍使用延迟或批处理机制的同时避免这种情况，应将延迟行为与编辑器状态传播分开。
+也就是说，必须始终允许`EditorState`毫不延迟地传播到`Editor`组件，并独立执行不影响Editor组件状态的批量更新。
 
-### Missing `Draft.css`
+### 丢失 `Draft.css`
 
-The Draft framework includes a handful of CSS resources intended for use with
-the editor, available in a single file via the build, `Draft.css`.
+Draft框架包括一些旨在与编辑器一起使用的CSS资源，可通过内部版本`Draft.css`在单个文件中获得。
 
-This CSS should be included when rendering the editor, as these styles set defaults
-for text alignment, spacing, and other important features. Without it, you may
-encounter issues with block positioning, alignment, and cursor behavior.
+呈现编辑器时，应包括此CSS，因为这些样式设置了文本对齐，间距和其他重要功能的默认设置。
+没有它，您可能会遇到块定位，对齐和光标行为的问题。
 
-If you choose to write your own CSS independent of `Draft.css`, you will most
-likely need to replicate much of the default styling.
+如果选择独立于`Draft.css`编写自己的CSS，则很可能需要复制许多默认样式。
 
-## Known Issues
+## 已知的问题
 
-### Custom OSX Keybindings
+### Custom OSX Keybindings 自定义OSX绑定
 
-Because the browser has no access to OS-level custom keybindings, it is not
-possible to intercept edit intent behaviors that do not map to default system
-key bindings.
+由于浏览器无法访问操作系统级别的自定义键绑定，因此无法拦截未映射到默认系统键绑定的编辑意图行为。
 
-The result of this is that users who use custom keybindings may encounter
-issues with Draft editors, since their key commands may not behave as expected.
+结果是使用自定义键绑定的用户可能会在草稿编辑器中遇到问题，因为他们的键盘命令可能无法按预期方式运行。
 
-### Browser plugins/extensions
+### 浏览器插件/扩展
 
-As with any React application, browser plugins and extensions that modify the
-DOM can cause Draft editors to break.
+与任何React应用程序一样，修改DOM的浏览器插件和扩展程序可能会导致Draft编辑器中断。
 
-Grammar checkers, for instance, may modify the DOM within contentEditable
-elements, adding styles like underlines and backgrounds. Since React cannot
-reconcile the DOM if the browser does not match its expectations,
-the editor state may fail to remain in sync with the DOM.
+例如，语法检查器可以修改`contentEditable`元素内的DOM，添加下划线和背景之类的样式。
+由于如果浏览器不符合预期，React无法协调DOM，因此编辑器状态可能无法与DOM保持同步。
 
-Certain old ad blockers are also known to break the native DOM Selection
-API -- a bad idea no matter what! -- and since Draft depends on this API to
-maintain controlled selection state, this can cause trouble for editor
-interaction.
+还已知某些旧的广告阻止程序会破坏原生的DOM Selection API-无论如何，这都是一个坏主意！
+-并且由于Draft依靠此API来维持受控的选择状态，因此这可能会导致编辑器交互的麻烦。
 
-### IME and Internet Explorer
+### IME 和 Internet Explorer
 
-As of IE11, Internet Explorer demonstrates notable issues with certain international
-input methods, most significantly Korean input.
+
+从IE11开始，Internet Explorer展示了某些国际输入法（最重要的是韩文输入法）中的显着问题。
 
 ### Polyfills
 
-Some of Draft's code and that of its dependencies make use of ES2015 language
-features. Syntax features like `class` are compiled away via Babel when Draft is
-built, but it does not include polyfills for APIs now included in many modern
-browsers (for instance: `String.prototype.startsWith`). We expect your browser
-supports these APIs natively or with the assistance of a polyfill. One such
-polyfill is [es6-shim](https://github.com/es-shims/es6-shim), which we use in
-many examples but you are free to use
-[babel-polyfill](https://babeljs.io/docs/usage/polyfill/) if that's more
-your scene.
+Draft的某些代码及其依赖项的代码使用ES2015语言功能。
+构建Draft时，会通过Babel编译掉诸如class之类的语法功能，但是它不包括现在许多现代浏览器中都包含的API的polyfills（例如：`String.prototype.startsWith`）。
+我们希望您的浏览器原生或在polyfill的支持下支持这些API。
+[es6-shim](https://github.com/es-shims/es6-shim)是这样的polyfill之一，我们在许多示例中都使用了[es6-shim](https://github.com/es-shims/es6-shim)，但如果您的场景更丰富，则可以自由使用[babel-polyfill](https://babeljs.io/docs/usage/polyfill/)。
 
-When using either polyfill/shim, you should include it as early as possible in
-your application's entrypoint (at the very minimum, before you import Draft).
-For instance, using
-[create-react-app](https://github.com/facebookincubator/create-react-app) and
-targeting IE11, `src/index.js` is probably a good spot to import your polyfill:
+使用polyfill/shim时，应尽早将其包括在应用程序的入口点中（至少在导入“草稿”之前）。
+例如，使用[create-react-app](https://github.com/facebookincubator/create-react-app)并定位IE11，`src/index.js`可能是导入polyfill的好地方：
 
 **`src/index.js`**
 
@@ -104,10 +76,8 @@ import './index.css';
 ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
-### Mobile Not Yet Supported
+### 尚不支持移动端
 
-Draft.js is moving towards full mobile support, but does not officially support
-mobile browsers at this point. There are some known issues affecting Android and
-iOS - see issues tagged
-['android'](https://github.com/facebook/draft-js/labels/android) or
-['ios'](https://github.com/facebook/draft-js/labels/ios) for the current status.
+Draft.js正朝着全面的移动端支持方向发展，但目前尚不正式支持移动端浏览器。
+有一些已知问题会影响Android 和 iOS-请查看标记为['android'](https://github.com/facebook/draft-js/labels/android) 或
+['ios'](https://github.com/facebook/draft-js/labels/ios)的当前状态问题。

@@ -1,46 +1,39 @@
 ---
 id: getting-started
-title: Overview
+title: 总览
 onPageNav: 'none'
 ---
 
-Draft.js is a framework for building rich text editors in React, powered by an immutable model and abstracting over cross-browser differences.
+Draft.js是一个框架，用于在React中构建富文本编辑器，该框架由不可变模型提供支持并跨浏览器差异进行抽象。
 
-Draft.js allows you to build any type of rich text input, whether you're only looking to support a few inline text styles or building a complex text editor for composing long-form articles.
+Draft.js允许您构建任何类型的RTF输入，无论您是要支持几种嵌入式文本样式，还是构建复杂的文本编辑器来撰写长篇文章。
 
-Draft.js was introduced at [React.js Conf](https://conf2016.reactjs.org/schedule#rich-text-editing-with-react) in February 2016.
+Draft.js于2016年2月在[React.js Conf](https://conf2016.reactjs.org/schedule#rich-text-editing-with-react)上引入。
 
-<iframe width="100%" height="365" src="https://www.youtube.com/embed/feUYwoLhE_4" frameBorder="0" allowFullScreen></iframe>
+## 安装
 
-## Installation
-
-Draft.js is distributed via npm. It depends on React and React DOM which must also be installed.
+Draft.js通过npm分发。它取决于还必须安装的React和React DOM。
 
 ```sh
 npm install draft-js react react-dom
 # or alternately
 yarn add draft-js react react-dom
 ```
-
-Draft.js uses some modern ECMAScript features which are not available to IE11 and not part of create-react-app's default babel config. If you're running into problems out-of-the-box try installing a shim or polyfill alongside Draft.
+Draft.js使用了一些现代ECMAScript功能，这些功能不适用于IE11，也不是create-react-app的默认babel配置的一部分。如果您开箱即用时遇到问题，请尝试安装shim或Polyfill。
 
 ```sh
 npm install draft-js react react-dom babel-polyfill
 # or
 yarn add draft-js react react-dom es6-shim
 ```
+了解更多有关[在Draft中使用shim](/docs/advanced-topics-issues-and-pitfalls#polyfills).
 
-Learn more about [using a shim with Draft](/docs/advanced-topics-issues-and-pitfalls#polyfills).
 
-## API Changes Notice
+## API变更通知
 
-Before getting started, please be aware that we recently changed the API of
-Entity storage in Draft. The latest version, `v0.10.0`, supports both the old
-and new API. Following that up will be `v0.11.0` which will remove the old API.
-If you are interested in helping out, or tracking the progress, please follow
-[issue 839](https://github.com/facebook/draft-js/issues/839).
+开始之前，请注意，我们最近在草稿中更改了实体存储的API。最新版本，v0.10.0支持新旧API。接下来v0.11.0将删除旧的API。如果您有兴趣帮助或跟踪进度，请按照问题[issue 839](https://github.com/facebook/draft-js/issues/839)进行。
 
-## Usage
+## 用法
 
 ```js
 import React from 'react';
@@ -63,8 +56,7 @@ class MyEditor extends React.Component {
 
 ReactDOM.render(<MyEditor />, document.getElementById('container'));
 ```
-
-Since the release of React 16.8, you can use [Hooks](https://reactjs.org/docs/hooks-intro.html) as a way to work with `EditorState` without using a class.
+自从React 16.8发布以来，您可以使用[Hooks](https://reactjs.org/docs/hooks-intro.html)作为一种使用方法，而EditorState无需使用类。
 
 ```js
 import React from 'react';
@@ -81,13 +73,11 @@ function MyEditor() {
 
 ReactDOM.render(<MyEditor />, document.getElementById('container'));
 ```
-
-Because Draft.js supports unicode, you must have the following meta tag in the `<head></head>` block of your HTML file:
+因为Draft.js支持unicode，所以您必须在`<head></head>`HTML文件的块中具有以下meta标记：
 
 ```html
 <meta charset="utf-8" />
 ```
+Draft.css呈现编辑器时应包括在内。详细了解[原因](/docs/advanced-topics-issues-and-pitfalls#missing-draftcss)。
 
-`Draft.css` should be included when rendering the editor. Learn more about [why](/docs/advanced-topics-issues-and-pitfalls#missing-draftcss).
-
-Next, let's go into the basics of the API and learn what else you can do with Draft.js.
+接下来，让我们进入API的基础知识，并学习使用Draft.js还可以做什么。

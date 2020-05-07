@@ -1,31 +1,23 @@
 ---
 id: advanced-topics-text-direction
-title: Text Direction
+title: 文字方向
 ---
 
-Facebook supports dozens of languages, which means that our text inputs need
-to be flexible enough to handle considerable variety.
+Facebook支持多种语言，这意味着我们的文本输入必须足够灵活以处理大量的变化。
 
-For example, we want input behavior for RTL languages such as Arabic and Hebrew
-to meet users' expectations. We also want to be able to support editor contents
-with a mixture of LTR and RTL text.
+例如，我们希望RTL语言（例如阿拉伯语和希伯来语）的输入行为能够满足用户的期望。
+我们还希望能够同时使用LTR和RTL文本来支持编辑器内容。
 
-To that end, Draft uses a bidi algorithm to determine appropriate
-text alignment and direction on a per-block basis.
+为此，Draft使用bidi algorithm(比迪算法)来逐块确定适当的文本对齐方式和方向。
 
-Text is rendered with an LTR or RTL direction automatically as the user types.
-You should not need to do anything to set direction yourself.
+用户键入时，将自动以LTR或RTL方向呈现文本。
+您无需做任何事情来设定方向。
 
-## Text Alignment
+## 文字对齐
 
-While languages are automatically aligned to the left or right during composition,
-as defined by the content characters, it is also possible for engineers to
-manually set the text alignment for an editor's contents.
+虽然在编写时语言会根据内容字符自动向左或向右对齐，但工程师也可以手动设置编辑者内容的文本对齐方式。
 
-This may be useful, for instance, if an editor requires strictly centered
-contents, or needs to keep text aligned flush against another UI element.
+例如，如果编辑器需要严格居中的内容，或者需要使文本与另一个UI元素对齐，则这可能很有用。
 
-The `Editor` component therefore provides a `textAlignment` prop, with a
-small set of values: `'left'`, `'center'`, and `'right'`. Using these values,
-the contents of your editor will be aligned to the specified direction regardless
-of language and character set.
+因此，`Editor`组件提供了`textAlignment` prop，带有少量值：`'left'`, `'center'`, and `'right'`。
+使用这些值，无论语言和字符集如何，编辑器的内容都将与指定的方向对齐。

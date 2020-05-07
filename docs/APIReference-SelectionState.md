@@ -1,44 +1,33 @@
 ---
 id: api-reference-selection-state
-title: SelectionState
+title: SelectionState 选择状态
 ---
 
-`SelectionState` is an Immutable [Record](http://facebook.github.io/immutable-js/docs/#/Record/Record) that represents a selection range in the editor.
+`SelectionState`是一个Immutable [Record](http://facebook.github.io/immutable-js/docs/#/Record/Record)，表示编辑器中的选择范围。
 
-The most common use for the `SelectionState` object is via `EditorState.getSelection()`,
-which provides the `SelectionState` currently being rendered in the editor.
+`SelectionState`对象的最常见用法是`EditorState.getSelection()`，它提供了当前在编辑器中呈现的SelectionState。
 
-### Keys and Offsets
+### Keys and Offsets 键和偏移
 
-A selection range has two points: an **anchor** and a **focus**. (Read more on
-[MDN](https://developer.mozilla.org/en-US/docs/Web/API/Selection#Glossary)).
+选择范围有两点：**anchor** 和 **focus** (锚点和焦点)。
+（了解有关[MDN](https://developer.mozilla.org/en-US/docs/Web/API/Selection#Glossary)的更多信息）
 
-The native DOM approach represents each point as a Node/offset pair, where the offset
-is a number corresponding either to a position within a Node's `childNodes` or, if the
-Node is a text node, a character offset within the text contents.
+原生DOM方法将每个点表示为一个Node/offset(节点/偏移)对，其中偏移是一个数字，它对应于节点的`childNodes`中的位置，或者，如果节点是文本节点，则是文本内容内的字符偏移。
 
-Since Draft maintains the contents of the editor using `ContentBlock` objects,
-we can use our own model to represent these points. Thus, selection points are
-tracked as key/offset pairs, where the `key` value is the key of the `ContentBlock`
-where the point is positioned and the `offset` value is the character offset
-within the block.
+由于Draft使用`ContentBlock`对象维护编辑器的内容，因此我们可以使用我们自己的模型来表示这些点。
+因此，选择点将作为key/offset(键/偏移)对进行跟踪，其中键值是`ContentBlock`的键，该点位于该位置，而`offset`值(偏移值)是块内的字符偏移
 
-### Start/End vs. Anchor/Focus
+### Start/End vs. Anchor/Focus 开始/结束 和 锚点/焦点
 
-The concept of **anchor** and **focus** is very useful when actually rendering
-a selection state in the browser, as it allows us to use forward and backward
-selection as needed. For editing operations, however, the direction of the selection
-doesn't matter. In this case, it is more appropriate to think in terms of
-**start** and **end** points.
+在浏览器中实际呈现选择状态时，**anchor** 和 **focus**的概念非常有用，因为它允许我们根据需要使用前向和后向选择。
+但是，对于编辑操作，选择的方向无关紧要。
+在这种情况下，考虑**start** 和 **end**是更合适的
 
-The `SelectionState` therefore exposes both anchor/focus values and
-start/end values. When managing selection behavior, we recommend that
-you work with _anchor_ and _focus_ values to maintain selection direction.
-When managing content operations, however, we recommend that you use _start_
-and _end_ values.
+因此，`SelectionState`公开anchor/focus的值和start/end的值。
+在管理选择行为时，建议您使用anchor和focus(锚点和焦点)值来保持选择方向。
+但是，在管理内容操作时，我们建议您使用start和end(开始和结束)值。
 
-For instance, when extracting a slice of text from a block based on a
-`SelectionState`, it is irrelevant whether the selection is backward:
+例如，在基于`SelectionState`从块中提取文本片段时，selection(选择)是否向后无关紧要：
 
 ```js
 var selectionState = editorState.getSelection();
@@ -50,12 +39,12 @@ var end = selectionState.getEndOffset();
 var selectedText = currentContentBlock.getText().slice(start, end);
 ```
 
-Note that `SelectionState` itself tracks only _anchor_ and _focus_ values.
-_Start_ and _end_ values are derived.
+请注意，`SelectionState`本身仅跟踪锚点和焦点值。
+得出起始值和结束值。
 
-## Overview
+## 总览
 
-_Static Methods_
+_静态方法_
 
 <ul class="apiIndex">
   <li>
@@ -65,7 +54,7 @@ _Static Methods_
   </li>
 </ul>
 
-_Methods_
+_方法_
 
 <ul class="apiIndex">
   <li>
@@ -135,12 +124,11 @@ _Methods_
   </li>
 </ul>
 
-_Properties_
+_属性_
 
-> Use [Immutable Map API](http://facebook.github.io/immutable-js/docs/#/Record/Record) to
-> set properties.
+> 使用[Immutable Map API](http://facebook.github.io/immutable-js/docs/#/Record/Record) 设置属性。
 >
-> **Example**
+> **例子**
 >
 > ```js
 > const selectionState = SelectionState.createEmpty();
@@ -180,7 +168,7 @@ _Properties_
   </li>
 </ul>
 
-## Static Methods
+## 静态方法
 
 ### `createEmpty()`
 
@@ -188,10 +176,9 @@ _Properties_
 createEmpty(blockKey: string): SelectionState
 ```
 
-Create a `SelectionState` object at the zero offset of the provided block key
-and `hasFocus` set to false.
+在提供的块键的零偏移处创建一个`SelectionState`对象，并将`hasFocus`设置为`false`。
 
-## Methods
+## 方法
 
 ### `getStartKey()`
 
@@ -199,23 +186,21 @@ and `hasFocus` set to false.
 getStartKey(): string
 ```
 
-Returns the key of the block containing the start position of the selection range.
+返回包含选择范围开始位置的块的键。
 
 ### `getStartOffset()`
 
 ```js
 getStartOffset(): number
 ```
-
-Returns the block-level character offset of the start position of the selection range.
+返回选择范围开始位置的块级字符偏移量。
 
 ### `getEndKey()`
 
 ```js
 getEndKey(): string
 ```
-
-Returns the key of the block containing the end position of the selection range.
+返回包含选择范围结束位置的块的键。
 
 ### `getEndOffset()`
 
@@ -223,7 +208,7 @@ Returns the key of the block containing the end position of the selection range.
 getEndOffset(): number
 ```
 
-Returns the block-level character offset of the end position of the selection range.
+返回选择范围结束位置的块级字符偏移量
 
 ### `getAnchorKey()`
 
@@ -231,7 +216,7 @@ Returns the block-level character offset of the end position of the selection ra
 getAnchorKey(): string
 ```
 
-Returns the key of the block containing the anchor position of the selection range.
+返回包含选择范围anchor(锚点)位置的块的键
 
 ### `getAnchorOffset()`
 
@@ -239,23 +224,21 @@ Returns the key of the block containing the anchor position of the selection ran
 getAnchorOffset(): number
 ```
 
-Returns the block-level character offset of the anchor position of the selection range.
+返回选择范围的锚点位置的块级字符偏移量
 
 ### `getFocusKey()`
 
 ```js
 getFocusKey(): string
 ```
-
-Returns the key of the block containing the focus position of the selection range.
+返回包含选择范围焦点位置的块的键
 
 ### `getFocusOffset()`
 
 ```js
 getFocusOffset(): number
 ```
-
-Returns the block-level character offset of the focus position of the selection range.
+返回选择范围焦点位置的块级字符偏移量
 
 ### `getIsBackward()`
 
@@ -263,18 +246,16 @@ Returns the block-level character offset of the focus position of the selection 
 getIsBackward(): boolean
 ```
 
-Returns whether the focus position is before the anchor position in the document.
+返回焦点位置是否在文档中的锚点位置之前
 
-This must be derived from the key order of the active `ContentState`, or if the selection
-range is entirely within one block, a comparison of the anchor and focus offset values.
+这必须从active(活动的) `ContentState`的键顺序得出，或者如果选择范围完全在一个块内，则比较锚点和焦点偏移值
 
 ### `getHasFocus()`
 
 ```js
 getHasFocus(): boolean
 ```
-
-Returns whether the editor has focus.
+返回编辑器是否具有焦点。
 
 ### `isCollapsed()`
 
@@ -282,9 +263,8 @@ Returns whether the editor has focus.
 isCollapsed(): boolean
 ```
 
-Returns whether the selection range is collapsed, i.e. a caret. This is true
-when the anchor and focus keys are the same /and/ the anchor and focus offsets
-are the same.
+返回选择范围是否折叠，即插入符号。
+当anchor键和focus键相同 /和/ anchor键和focus offsets(焦点偏移量)相同时，这是正确的
 
 ### `hasEdgeWithin()`
 
@@ -292,11 +272,9 @@ are the same.
 hasEdgeWithin(blockKey: string, start: number, end: number): boolean
 ```
 
-Returns whether the selection range has an edge that overlaps with the specified
-start/end range within a given block.
+返回选择范围是否具有与给定块内指定的开始/结束范围重叠的边。
 
-This is useful when setting DOM selection within a block after contents are
-rendered.
+在呈现内容后在块内设置DOM选择时，此功能很有用。
 
 ### `serialize()`
 
@@ -304,12 +282,12 @@ rendered.
 serialize(): string
 ```
 
-Returns a serialized version of the `SelectionState`. Useful for debugging.
+返回`SelectionState`的序列化版本。
+对调试有用
 
-## Properties
+## 属性
 
-> Use [Immutable Map API](http://facebook.github.io/immutable-js/docs/#/Record/Record) to
-> set properties.
+> 使用[Immutable Map API](http://facebook.github.io/immutable-js/docs/#/Record/Record) 设置属性。
 
 ```js
 var selectionState = SelectionState.createEmpty('foo');
@@ -323,24 +301,26 @@ var focusKey = updatedSelection.getFocusKey(); // 'bar'
 
 ### `anchorKey`
 
-The block containing the anchor end of the selection range.
+包含选择范围anchor end(锚端)的块。
 
 ### `anchorOffset`
 
-The offset position of the anchor end of the selection range.
+选择范围的锚端的偏移位置。
 
 ### `focusKey`
 
-The block containing the focus end of the selection range.
+包含选择范围焦点结束的块
 
 ### `focusOffset`
 
-The offset position of the focus end of the selection range.
+选择范围的焦点末端的偏移位置。
 
 ### `isBackward`
 
-If the anchor position is lower in the document than the focus position, the selection is backward. Note: The `SelectionState` is an object with no knowledge of the `ContentState` structure. Therefore, when updating `SelectionState` values, you are responsible for updating `isBackward` as well.
+如果锚点位置在文档中比焦点位置低，则选择向后。
+注意：`SelectionState`是一个不知道`ContentState`结构的对象。
+因此，在更新`SelectionState`值时，您还要负责更新`isBackward`。
 
 ### `hasFocus`
 
-Whether the editor currently has focus.
+编辑器当前是否具有焦点。

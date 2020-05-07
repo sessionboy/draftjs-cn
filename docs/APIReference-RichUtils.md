@@ -1,15 +1,13 @@
 ---
 id: api-reference-rich-utils
-title: RichUtils
+title: RichUtils 
 ---
 
-The `RichUtils` module is a static set of utility functions for rich text
-editing.
+`RichUtils`模块是一组实用函数的静态set(集合)，用于富文本编辑
 
-In each case, these methods accept `EditorState` objects with relevant
-parameters and return `EditorState` objects.
+在每种情况下，这些方法都接受带有相关参数的`EditorState`对象，并返回`EditorState`对象。
 
-## Static Methods
+## 静态方法
 
 ### `currentBlockContainsLink()`
 
@@ -96,10 +94,9 @@ toggleInlineStyle(
 ): EditorState
 ```
 
-Toggle the specified inline style for the selection. If the
-user's selection is collapsed, apply or remove the style for the
-internal state. If it is not collapsed, apply the change directly
-to the document state.
+切换选择的指定内联样式。
+如果用户的选择已折叠(collapsed)，请应用或删除内部状态的样式。
+如果未折叠(not collapsed)，则将更改直接应用于文档状态
 
 ### `toggleLink()`
 

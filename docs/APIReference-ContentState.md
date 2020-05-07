@@ -1,24 +1,21 @@
 ---
 id: api-reference-content-state
-title: ContentState
+title: ContentState 内容状态
 ---
 
-`ContentState` is an Immutable
-[Record](http://facebook.github.io/immutable-js/docs/#/Record/Record) that
-represents the full state of:
+ContentState是一个Immutable
+[Record](http://facebook.github.io/immutable-js/docs/#/Record/Record)，表示以下各项的完整状态：
 
-- The entire **contents** of an editor: text, block and inline styles, and entity ranges.
-- Two **selection states** of an editor: before and after the rendering of these contents.
+- 编辑器的全部**内容**：文本，块和内联样式以及实体范围(entity ranges)
+- 编辑器的两种**selection states**：呈现这些内容之前和之后。
 
-The most common use for the `ContentState` object is via `EditorState.getCurrentContent()`,
-which provides the `ContentState` currently being rendered in the editor.
+`ContentState`对象的最常见用法是通过`EditorState.getCurrentContent()`，它提供了当前在编辑器中呈现的`ContentState`。
 
-An `EditorState` object maintains undo and redo stacks comprised of `ContentState`
-objects.
+`EditorState`对象维护由`ContentState`对象组成的撤消和重做堆栈。
 
-## Overview
+## 总览
 
-_Static Methods_
+_静态方法_
 
 <ul class="apiIndex">
   <li>
@@ -33,7 +30,7 @@ _Static Methods_
   </li>
 </ul>
 
-_Methods_
+_方法_
 
 <ul class="apiIndex">
   <li>
@@ -138,12 +135,11 @@ _Methods_
   </li>
 </ul>
 
-_Properties_
+_属性_
 
-> Use [Immutable Map API](http://facebook.github.io/immutable-js/docs/#/Map) to
-> set properties.
+> 使用[Immutable Map API](http://facebook.github.io/immutable-js/docs/#/Map)设置属性。
 >
-> **Example**
+> **例子**
 >
 > ```js
 > const editorState = EditorState.createEmpty();
@@ -172,7 +168,7 @@ _Properties_
   </li>
 </ul>
 
-## Static Methods
+## 静态方法
 
 ### `createFromText()`
 
@@ -183,8 +179,8 @@ static createFromText(
 ): ContentState
 ```
 
-Generates a `ContentState` from a string, with a delimiter to split the string
-into `ContentBlock` objects. If no delimiter is provided, '`\n`' is used.
+从字符串生成`ContentState`，并使用delimiter(定界符)将字符串拆分为`ContentBlock`对象。
+如果未提供定界符，则使用`'\n'`。
 
 ### `createFromBlockArray()`
 
@@ -195,11 +191,10 @@ static createFromBlockArray(
 ): ContentState
 ```
 
-Generates a `ContentState` from an array of `ContentBlock` objects. The default
-`selectionBefore` and `selectionAfter` states have the cursor at the start of
-the content.
+从`ContentBlock`对象数组生成`ContentState`。
+默认的`selectionBefore`和`selectionAfter`状态将光标置于内容的开头。
 
-## Methods
+## 方法
 
 ### `getEntityMap()`
 
@@ -207,13 +202,10 @@ the content.
 getEntityMap(): EntityMap
 ```
 
-Returns an object store containing all `DraftEntity` records that have been
-created. In upcoming v0.11.0 the map returned will be an Immutable ordered map
-of `DraftEntity` records.
+返回一个包含所有已创建的`DraftEntity`记录的对象库。
+在即将发布的v0.11.0中，返回的map(映射)将是`DraftEntity`记录的Immutable ordered map(Immutable有序映射)。
 
-In most cases, you should be able to use the convenience methods below to target
-specific `DraftEntity` records or obtain information about the state of the
-content.
+在大多数情况下，您应该能够使用下面的便捷方法来定位特定的`DraftEntity`记录或获取有关内容状态的信息。
 
 ### `getBlockMap()`
 
@@ -221,11 +213,9 @@ content.
 getBlockMap(): BlockMap
 ```
 
-Returns the full ordered map of `ContentBlock` objects representing the state
-of an entire document.
+返回表示整个文档状态的`ContentBlock`对象的完整顺序图。
 
-In most cases, you should be able to use the convenience methods below to target
-specific `ContentBlock` objects or obtain information about the state of the content.
+在大多数情况下，您应该能够使用下面的便捷方法来定位特定的`ContentBlock`对象或获取有关内容状态的信息。
 
 ### `getSelectionBefore()`
 
@@ -233,10 +223,9 @@ specific `ContentBlock` objects or obtain information about the state of the con
 getSelectionBefore(): SelectionState
 ```
 
-Returns the `SelectionState` displayed in the editor before rendering `blockMap`.
+返回呈现`blockMap`之前在编辑器中显示的`SelectionState`
 
-When performing an `undo` action in the editor, the `selectionBefore` of the current
-`ContentState` is used to place the selection range in the appropriate position.
+在编辑器中执行撤消操作时，当前`ContentState`的`selectionBefore`用于将selection range(选择范围)放置在适当的位置。
 
 ### `getSelectionAfter()`
 
@@ -244,20 +233,18 @@ When performing an `undo` action in the editor, the `selectionBefore` of the cur
 getSelectionAfter(): SelectionState
 ```
 
-Returns the `SelectionState` displayed in the editor after rendering `blockMap`.
+返回呈现`blockMap`后在编辑器中显示的`SelectionState`。
 
-When performing any action in the editor that leads to this `blockMap` being rendered,
-the selection range will be placed in the `selectionAfter` position.
+当在编辑器中执行导致呈现此`blockMap`的任何操作时，选择范围将放置在`selectionAfter`位置。
 
 ### `getBlockForKey()`
 
 ```js
 getBlockForKey(key: string): ContentBlock
 ```
+返回与给定块键相对应的`ContentBlock`。
 
-Returns the `ContentBlock` corresponding to the given block key.
-
-#### Example
+#### 例子
 
 ```js
 var {editorState} = this.state;
@@ -273,33 +260,28 @@ var selectedBlockType = editorState
 ```js
 getKeyBefore(key: string): ?string
 ```
-
-Returns the key before the specified key in `blockMap`, or null if this is the first key.
+返回`blockMap`中指定键之前的键；如果这是第一个键，则返回`null`。
 
 ### `getKeyAfter()`
 
 ```js
 getKeyAfter(key: string): ?string
 ```
-
-Returns the key after the specified key in `blockMap`, or null if this is the last key.
+在`blockMap`中指定键之后返回键；如果这是最后一个键，则返回`null`。
 
 ### `getBlockBefore()`
 
 ```js
 getBlockBefore(key: string): ?ContentBlock
 ```
-
-Returns the `ContentBlock` before the specified key in `blockMap`, or null if this is
-the first key.
+在`blockMap`中指定键之前返回`ContentBlock`；如果这是第一个键，则返回`null`。
 
 ### `getBlockAfter()`
 
 ```js
 getBlockAfter(key: string): ?ContentBlock
 ```
-
-Returns the `ContentBlock` after the specified key in `blockMap`, or null if this is the last key.
+在`blockMap`中指定键之后返回`ContentBlock`；如果这是最后一个键，则返回`null`。
 
 ### `getBlocksAsArray()`
 
@@ -307,53 +289,47 @@ Returns the `ContentBlock` after the specified key in `blockMap`, or null if thi
 getBlocksAsArray(): Array<ContentBlock>
 ```
 
-Returns the values of `blockMap` as an array.
+以数组形式返回`blockMap`的值。
 
-You generally won't need to use this method, since `getBlockMap` provides an `OrderedMap` that you should use for iteration.
+通常不需要使用此方法，因为`getBlockMap`提供了应该用于迭代的`OrderedMap`。
 
 ### `getFirstBlock()`
 
 ```js
 getFirstBlock(): ContentBlock
 ```
-
-Returns the first `ContentBlock`.
+返回第一个`ContentBlock`。
 
 ### `getLastBlock()`
 
 ```js
 getLastBlock(): ContentBlock
 ```
-
-Returns the last `ContentBlock`.
+返回最后一个`ContentBlock`。
 
 ### `getPlainText()`
 
 ```js
 getPlainText(delimiter?: string): string
 ```
-
-Returns the full plaintext value of the contents, joined with a delimiter. If no
-delimiter is specified, the line feed character (`\u000A`) is used.
+返回内容的完整纯文本值，并带有delimiter(定界符)。
+如果未指定分隔符，则使用换行符（`\u000A`）。
 
 ### `getLastCreatedEntityKey()`
 
 ```js
 getLastCreatedEntityKey(): string
 ```
-
-Returns the string key that can be used to reference the most recently created
-`DraftEntity` record. This is because entities are referenced by their string
-key in ContentState. The string value should be used within CharacterMetadata
-objects to track the entity for annotated characters.
+返回可用于引用最近创建的`DraftEntity`记录的字符串键。
+这是因为实体是通过`ContentState`中的字符串键引用的。
+应在`CharacterMetadata`对象中使用字符串值来跟踪带注释字符的实体
 
 ### `hasText()`
 
 ```js
 hasText(): boolean
 ```
-
-Returns whether the contents contain any text at all.
+返回内容是否完全包含任何文本。
 
 ### `createEntity()`
 
@@ -365,7 +341,8 @@ createEntity(
 ): ContentState
 ```
 
-Returns `ContentState` record updated to include the newly created `DraftEntity` record in it's `EntityMap`. Call `getLastCreatedEntityKey` to get the key of the newly created `DraftEntity` record.
+返回已更新的`ContentState`记录，以将新创建​​的`DraftEntity`记录包含在`EntityMap`中。
+调用`getLastCreatedEntityKey`以获取新创建的`DraftEntity`记录的键。
 
 ### `getEntity()`
 
@@ -373,7 +350,8 @@ Returns `ContentState` record updated to include the newly created `DraftEntity`
 getEntity(key: string): DraftEntityInstance
 ```
 
-Returns the DraftEntityInstance for the specified key. Throws if no instance exists for that key.
+返回指定键的`DraftEntityInstance`。
+如果该键不存在实例，则抛出该异常。
 
 ### `mergeEntityData()`
 
@@ -384,10 +362,9 @@ mergeEntityData(
 ): ContentState
 ```
 
-Since DraftEntityInstance objects are immutable, you cannot update an entity's
-metadata through typical mutative means.
+由于`DraftEntityInstance`对象是immutable(不可变的)，因此您无法通过典型的可变方式来更新实体的元数据。
 
-The mergeData method allows you to apply updates to the specified entity.
+mergeData方法允许您将更新应用于指定的实体。
 
 ### `replaceEntityData()`
 
@@ -397,8 +374,7 @@ replaceEntityData(
   newData: {[key: string]: any}
 ): ContentState
 ```
-
-The replaceData method is similar to the mergeData method, except it will totally discard the existing data value for the instance and replace it with the specified newData.
+`replaceData`方法与`mergeData`方法类似，不同之处在于它将完全丢弃实例的现有数据值并将其替换为指定的`newData`。
 
 ### `addEntity()`
 
@@ -406,27 +382,24 @@ The replaceData method is similar to the mergeData method, except it will totall
 addEntity(instance: DraftEntityInstance): ContentState
 ```
 
-In most cases, you will use contentState.createEntity(). This is a convenience
-method that you probably will not need in typical Draft usage.
+在大多数情况下，您将使用`contentState.createEntity()`。
+这是一种便捷的方法，在典型的“草稿”用法中您可能不需要。
 
-The add function is useful in cases where the instances have already been
-created, and now need to be added to the Entity store. This may occur in cases
-where a vanilla JavaScript representation of a ContentState is being revived for
-editing.
+在已经创建实例并且现在需要将其添加到实体存储的情况下，添加功能很有用。
+如果要恢复`ContentState`的原始JavaScript表示以进行编辑，则可能会发生这种情况。
 
-## Properties
+## 属性
 
-> Use [Immutable Map API](http://facebook.github.io/immutable-js/docs/#/Map) to
-> set properties.
+使用[Immutable Map API](http://facebook.github.io/immutable-js/docs/#/Map)设置属性。.
 
 ### `blockMap`
 
-See `getBlockMap()`.
+查看`getBlockMap()`.
 
 ### `selectionBefore`
 
-See `getSelectionBefore()`.
+查看`getSelectionBefore()`.
 
 ### `selectionAfter`
 
-See `getSelectionAfter()`.
+查看`getSelectionAfter()`.

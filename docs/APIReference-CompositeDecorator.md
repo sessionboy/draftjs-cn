@@ -1,8 +1,8 @@
 ---
 id: api-reference-composite-decorator
-title: CompositeDecorator
+title: CompositeDecorator 复合装饰器
 ---
 
-## Advanced Topic Article
+## Advanced Topic Article 高级主题文章
 
-See the [advanced topic article on Decorators](/docs/advanced-topics-decorators#compositedecorator).
+查看 [装饰器的高级主题文章](/docs/advanced-topics-decorators#compositedecorator).

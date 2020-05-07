@@ -1,11 +1,11 @@
 {
   "docs": {
-    "Quick Start": [
+    "快速入门": [
       "getting-started",
       "quickstart-api-basics",
       "quickstart-rich-styling"
     ],
-    "Advanced Topics": [
+    "高级主题": [
       "advanced-topics-entities",
       "v0-10-api-migration",
       "advanced-topics-decorators",
@@ -20,7 +20,7 @@
       "advanced-topics-editorstate-race-conditions",
       "advanced-topics-issues-and-pitfalls"
     ],
-    "API Reference": [
+    "API参考": [
       "api-reference-editor",
       "api-reference-editor-change-type",
       "api-reference-editor-state",
