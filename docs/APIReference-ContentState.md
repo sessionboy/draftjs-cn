@@ -7,9 +7,9 @@ ContentState是一个Immutable
 [Record](http://facebook.github.io/immutable-js/docs/#/Record/Record)，表示以下各项的完整状态：
 
 - 编辑器的全部**内容**：文本，块和内联样式以及实体范围(entity ranges)
-- 编辑器的两种**selection states**：呈现这些内容之前和之后。
+- 编辑器的两种**selection states**：渲染这些内容之前和之后。
 
-`ContentState`对象的最常见用法是通过`EditorState.getCurrentContent()`，它提供了当前在编辑器中呈现的`ContentState`。
+`ContentState`对象的最常见用法是通过`EditorState.getCurrentContent()`，它提供了当前在编辑器中渲染的`ContentState`。
 
 `EditorState`对象维护由`ContentState`对象组成的撤消和重做堆栈。
 
@@ -223,7 +223,7 @@ getBlockMap(): BlockMap
 getSelectionBefore(): SelectionState
 ```
 
-返回呈现`blockMap`之前在编辑器中显示的`SelectionState`
+返回渲染`blockMap`之前在编辑器中显示的`SelectionState`
 
 在编辑器中执行撤消操作时，当前`ContentState`的`selectionBefore`用于将selection range(选择范围)放置在适当的位置。
 
@@ -233,9 +233,9 @@ getSelectionBefore(): SelectionState
 getSelectionAfter(): SelectionState
 ```
 
-返回呈现`blockMap`后在编辑器中显示的`SelectionState`。
+返回渲染`blockMap`后在编辑器中显示的`SelectionState`。
 
-当在编辑器中执行导致呈现此`blockMap`的任何操作时，选择范围将放置在`selectionAfter`位置。
+当在编辑器中执行导致渲染此`blockMap`的任何操作时，选择范围将放置在`selectionAfter`位置。
 
 ### `getBlockForKey()`
 
@@ -383,7 +383,7 @@ addEntity(instance: DraftEntityInstance): ContentState
 ```
 
 在大多数情况下，您将使用`contentState.createEntity()`。
-这是一种便捷的方法，在典型的“草稿”用法中您可能不需要。
+这是一种便捷的方法，在典型的`Draft`用法中您可能不需要。
 
 在已经创建实例并且现在需要将其添加到实体存储的情况下，添加功能很有用。
 如果要恢复`ContentState`的原始JavaScript表示以进行编辑，则可能会发生这种情况。

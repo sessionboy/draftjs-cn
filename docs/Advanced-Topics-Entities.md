@@ -7,7 +7,7 @@ title: Entities 实体
 实体在样式文本之外引入了丰富程度。
 链接，提及和嵌入式内容都可以使用实体来实现。  
 
-在草稿存储库中，[link(链接)编辑器](https://github.com/facebook/draft-js/tree/master/examples/draft-0-10-0/link)和[entity demo](https://github.com/facebook/draft-js/tree/master/examples/draft-0-10-0/entity)提供了实时代码示例，以帮助阐明实体的使用方式及其内置行为。  
+在`Draft`存储库中，[link(链接)编辑器](https://github.com/facebook/draft-js/tree/master/examples/draft-0-10-0/link)和[entity demo](https://github.com/facebook/draft-js/tree/master/examples/draft-0-10-0/entity)提供了实时代码示例，以帮助阐明实体的使用方式及其内置行为。  
 
 [Entity API参考](/docs/api-reference-entity)提供了有关在创建，检索或更新实体对象时要使用的静态方法的详细信息。  
 

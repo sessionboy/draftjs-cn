@@ -54,7 +54,7 @@ title: 复杂的内联样式
 ];
 ```
 
-在确定如何呈现内联样式的文本时，Draft将识别相同样式的字符的连续范围，并将这些字符一起显示在样式化的`span`节点中。
+在确定如何渲染内联样式的文本时，Draft将识别相同样式的字符的连续范围，并将这些字符一起显示在样式化的`span`节点中。
 
 ## 将样式字符串映射到CSS
 
@@ -92,5 +92,5 @@ class MyEditor extends React.Component {
 }
 ```
 
-呈现时，`textDecoration: line-through`将`以STRIKETHROUGH`样式应用于所有字符范围。
+渲染时，`textDecoration: line-through`将`以STRIKETHROUGH`样式应用于所有字符范围。
 

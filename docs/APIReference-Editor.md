@@ -4,7 +4,7 @@ title: Editor组件
 ---
 
 本文讨论了核心控件`contentEditable`组件本身（Editor）的API和支持。
-道具在[`DraftEditorProps`](https://github.com/facebook/draft-js/blob/master/src/component/base/DraftEditorProps.js)中定义。
+props在[`DraftEditorProps`](https://github.com/facebook/draft-js/blob/master/src/component/base/DraftEditorProps.js)中定义。
 
 ## Props
 
@@ -17,7 +17,7 @@ title: Editor组件
 ```js
 editorState: EditorState;
 ```
-要由`Editor`呈现的`EditorState`对象。
+要由`Editor`渲染的`EditorState`对象。
 
 ### `onChange`
 
@@ -88,7 +88,7 @@ blockRendererMap?: DraftBlockRenderMap
 blockStyleFn?: (block: ContentBlock) => string
 ```
 
-（可选）设置一个函数以定义要在呈现给定块时应用于给定块的类名。
+（可选）设置一个函数以定义要在渲染给定块时应用于给定块的类名。
 有关用法的详细信息，请参见[高级主题：块样式](/docs/advanced-topics-block-styling)。
 
 
@@ -142,7 +142,7 @@ autoCorrect?: string
 ```js
 readOnly?: boolean
 ```
-设置是否应在禁用所有可编辑性的情况下将编辑器呈现为静态DOM。
+设置是否应在禁用所有可编辑性的情况下将编辑器渲染为静态DOM。
 
 在支持[自定义块组件](/docs/advanced-topics-block-components)内的交互时，或者仅在静态用例中显示内容时，这很有用。
 
@@ -186,7 +186,7 @@ stripPastedStyles?: boolean
 editorKey?: string
 ```
 
-除非要在服务器端渲染草稿组件，否则可能不会在`<Editor />`上手动设置`editorKey`。
+除非要在服务器端渲染`Draft`组件，否则可能不会在`<Editor />`上手动设置`editorKey`。
 如果是这样，则必须设置此prop以避免服务器/客户端不匹配。
 
 如果未设置键，则在渲染该组件时将自动生成该密钥，并将其分配为编辑器的`<DraftEditorContents />`组件的prop。
@@ -208,7 +208,7 @@ handleReturn?: (
 ) => DraftHandleValue
 ```
 处理`RETURN`按下事件。
-用法示例：从呈现的结果列表中选择一个提及标记，以触发将提及实体应用于您的内容。
+用法示例：从渲染的结果列表中选择一个提及标记，以触发将提及实体应用于您的内容。
 
 ### `handleKeyCommand`
 

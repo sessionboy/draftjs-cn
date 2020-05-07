@@ -9,7 +9,7 @@ title: 装饰器
 
 ## CompositeDecorator 复合装饰器
 
-装饰器的概念基于扫描给定[ContentBlock](/docs/api-reference-content-block)的内容以 查找与定义的策略匹配的文本范围，然后使用指定的React组件呈现它们。
+装饰器的概念基于扫描给定[ContentBlock](/docs/api-reference-content-block)的内容以 查找与定义的策略匹配的文本范围，然后使用指定的React组件渲染它们。
 
 您可以使用`CompositeDecorator`该类来定义所需的装饰器行为。此类允许您提供多个`DraftDecorator`对象，并且将依次搜索每种策略的一段文本。
 
@@ -63,7 +63,7 @@ function findWithRegex(regex, contentBlock, callback) {
 
 ## Decorator Components 装饰器组件
 
-对于修饰的文本范围，必须定义一个React组件以用于呈现它们。这些往往是简单的`span`元素，并带有CSS类或样式。
+对于修饰的文本范围，必须定义一个React组件以用于渲染它们。这些往往是简单的`span`元素，并带有CSS类或样式。
 
 在我们当前的示例中，`CompositeDecorator`对象名称`HandleSpan`和 `HashtagSpan`作为用于装饰的组件。这些是基本的无状态组件：
 
@@ -84,11 +84,11 @@ const HashtagSpan = props => {
   );
 };
 ```
-装饰器组件将在道具中接收各种元数据，包括`contentState`的副本，`entityKey`（如果有）和`blockKey`。
-有关提供给装饰器组件的道具的完整列表，请参见[DraftDecoratorComponentProps 类型](https://github.com/facebook/draft-js/blob/master/src/model/decorators/DraftDecorator.js)。
+装饰器组件将在props中接收各种元数据，包括`contentState`的副本，`entityKey`（如果有）和`blockKey`。
+有关提供给装饰器组件的props的完整列表，请参见[DraftDecoratorComponentProps 类型](https://github.com/facebook/draft-js/blob/master/src/model/decorators/DraftDecorator.js)。
 
 请注意，`props.children`被传递到渲染输出。
-这样做是为了确保在装饰范围内呈现文本。
+这样做是为了确保在装饰范围内渲染文本。
 
 您可以对链接使用相同的方法，如我们的[link example](https://github.com/facebook/draft-js/tree/master/examples/draft-0-10-0/link)所示。
 

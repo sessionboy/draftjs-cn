@@ -10,7 +10,7 @@ title: 键绑定
 
 默认的键绑定函数是`getDefaultKeyBinding`。
 
-由于Draft框架保持对DOM呈现和行为的严格控制，因此必须捕获基本的编辑命令并通过键绑定系统进行路由。
+由于Draft框架保持对DOM渲染和行为的严格控制，因此必须捕获基本的编辑命令并通过键绑定系统进行路由。
 
 `getDefaultKeyBinding`将已知的OS级编辑器命令映射到`DraftEditorCommand`字符串，然后这些字符串与组件处理程序中的行为相对应。
 

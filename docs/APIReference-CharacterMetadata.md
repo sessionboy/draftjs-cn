@@ -12,7 +12,7 @@ title: CharacterMetadata 字符元数据
 
 为此，您应该通过提供的一组静态方法创建或将更改应用于`CharacterMetadata`对象，这将确保利用pooling。
 
-大多数草稿用例不太可能使用这些静态方法，因为大多数常用的编辑操作已经实现，并且可以通过实用程序模块使用。
+大多数`Draft`用例不太可能使用这些静态方法，因为大多数常用的编辑操作已经实现，并且可以通过实用程序模块使用。
 但是，`getter`方法可能会在渲染时派上用场
 
 有关如何在`ContentBlock`中使用`CharacterMetadata`的信息，请参阅[ContentBlock](/docs/api-reference-content-block#representing-styles-and-entities)上的API参考。

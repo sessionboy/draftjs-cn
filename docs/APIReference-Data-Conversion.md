@@ -7,7 +7,7 @@ title: 数据转换
 
 为此，我们提供了一些实用程序功能，可让您执行这些转换。
 
-请注意，草稿库当前不提供实用工具来使markdown 或 markup之间进行转换，因为不同的客户端可能对这些格式有不同的要求。
+请注意，`Draft`库当前不提供实用工具来使markdown 或 markup之间进行转换，因为不同的客户端可能对这些格式有不同的要求。
 相反，我们提供了可以根据需要转换为其他格式的JavaScript对象。
 
 Flow类型[`RawDraftContentState`](https://github.com/facebook/draft-js/blob/master/src/model/encoding/RawDraftContentState.js)表示内容的raw格式的预期结构。
@@ -22,7 +22,7 @@ convertFromRaw(rawState: RawDraftContentState): ContentState
 ```
 
 给定raw state，将其转换为`ContentState`。
-还原要在草稿编辑器中使用的内容时，这很有用。
+还原要在`Draft`编辑器中使用的内容时，这很有用。
 
 ### `convertToRaw()`
 

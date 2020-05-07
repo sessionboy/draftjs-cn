@@ -5,7 +5,7 @@ title: SelectionState 选择状态
 
 `SelectionState`是一个Immutable [Record](http://facebook.github.io/immutable-js/docs/#/Record/Record)，表示编辑器中的选择范围。
 
-`SelectionState`对象的最常见用法是`EditorState.getSelection()`，它提供了当前在编辑器中呈现的SelectionState。
+`SelectionState`对象的最常见用法是`EditorState.getSelection()`，它提供了当前在编辑器中渲染的SelectionState。
 
 ### Keys and Offsets 键和偏移
 
@@ -19,7 +19,7 @@ title: SelectionState 选择状态
 
 ### Start/End vs. Anchor/Focus 开始/结束 和 锚点/焦点
 
-在浏览器中实际呈现选择状态时，**anchor** 和 **focus**的概念非常有用，因为它允许我们根据需要使用前向和后向选择。
+在浏览器中实际渲染选择状态时，**anchor** 和 **focus**的概念非常有用，因为它允许我们根据需要使用前向和后向选择。
 但是，对于编辑操作，选择的方向无关紧要。
 在这种情况下，考虑**start** 和 **end**是更合适的
 
@@ -274,7 +274,7 @@ hasEdgeWithin(blockKey: string, start: number, end: number): boolean
 
 返回选择范围是否具有与给定块内指定的开始/结束范围重叠的边。
 
-在呈现内容后在块内设置DOM选择时，此功能很有用。
+在渲染内容后在块内设置DOM选择时，此功能很有用。
 
 ### `serialize()`
 

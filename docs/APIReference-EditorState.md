@@ -5,7 +5,7 @@ title: EditorState 编辑器状态
 
 `EditorState`是编辑器的顶级状态对象。
 
-它是Immutable [Record](http://facebook.github.io/immutable-js/docs/#/Record/Record)，代表草稿编辑器的整个状态，包括
+它是Immutable [Record](http://facebook.github.io/immutable-js/docs/#/Record/Record)，代表`Draft`编辑器的整个状态，包括
 
 - 当前文本内容状态
 - 当前选择状态
@@ -230,7 +230,7 @@ getBlockTree(blockKey: string): List;
 ```
 
 返回修饰范围和样式范围的Immutable `List`。
-这用于呈现目的，并且是基于`currentContent`和`decorator`生成的。
+这用于渲染目的，并且是基于`currentContent`和`decorator`生成的。
 
 在渲染时，此对象用于将内容分解为适当的块，装饰器和样式化的范围组件。
 
@@ -305,7 +305,7 @@ static acceptSelection(
 ): EditorState
 ```
 
-返回一个新的`EditorState`对象，该对象已应用指定的`SelectionState`，但不需要呈现selection。
+返回一个新的`EditorState`对象，该对象已应用指定的`SelectionState`，但不需要渲染selection。
 
 例如，当DOM选择在我们的控制范围之外更改并且不需要重新渲染时，这很有用。
 
@@ -317,9 +317,9 @@ static forceSelection(
   selectionState: SelectionState
 ): EditorState
 ```
-返回一个新的`EditorState`对象，该对象已应用指定的`SelectionState`，强制呈现selection。
+返回一个新的`EditorState`对象，该对象已应用指定的`SelectionState`，强制渲染selection。
 
-当应该在正确的位置手动呈现选择内容以保持对呈现输出的控制时，这很有用。
+当应该在正确的位置手动渲染选择内容以保持对渲染输出的控制时，这很有用。
 
 ### `moveSelectionToEnd`
 
@@ -356,7 +356,7 @@ static set(editorState: EditorState, options: EditorStateRecordType): EditorStat
 
 ## Properties and Getters 属性和吸气剂
 
-在大多数情况下，上述实例和静态方法应足以管理草稿编辑器的状态
+在大多数情况下，上述实例和静态方法应足以管理`Draft`编辑器的状态
 
 以下是`EditorState`跟踪的属性及其对应的getter方法的完整列表，以更好地提供有关此对象中跟踪的状态范围的详细信息。
 
@@ -385,7 +385,7 @@ currentContent: ContentState;
 getCurrentContent();
 ```
 
-当前呈现的`ContentState`。
+当前渲染的`ContentState`。
 请参见[getCurrentContent()](#getcurrentcontent)。
 
 ### `decorator`
@@ -428,7 +428,7 @@ isInCompositionMode();
 ```
 
 用户是否处于IME合成模式。
-即使未对编辑器提交任何内容更改，这对于为IME用户呈现适当的UI也很有用。
+即使未对编辑器提交任何内容更改，这对于为IME用户渲染适当的UI也很有用。
 您不应该手动设置此属性。
 
 ### `inlineStyleOverride`
@@ -458,11 +458,11 @@ getLastChangeType();
 nativelyRenderedContent: ?ContentState;
 getNativelyRenderedContent()
 ```
-在编辑行为期间，编辑器可以允许某些操作本地呈现。
+在编辑行为期间，编辑器可以允许某些操作本地渲染。
 例如，在基于`contentEditable`的组件中的正常键入行为期间，我们通常可以允许击键事件落入以打印DOM中的字符。
 这样一来，我们就可以避免重新渲染并保留拼写检查突出显示。
 
-当允许本机呈现行为时，使用`nativelyRenderedContent`属性指示对此`EditorState`不需要重新呈现是适当的
+当允许本机渲染行为时，使用`nativelyRenderedContent`属性指示对此`EditorState`不需要重新渲染是适当的
 
 ### `redoStack`
 
@@ -485,7 +485,7 @@ selection: SelectionState;
 getSelection();
 ```
 
-当前呈现的`SelectionState`。
+当前渲染的`SelectionState`。
 请查看[acceptSelection()](#acceptselection)
 and [forceSelection()](#forceselection)。
 
@@ -497,7 +497,7 @@ and [forceSelection()](#forceselection)。
 treeMap: OrderedMap<string, List>;
 ```
 
-完全装饰和样式化的ranges(范围)树，将在编辑器组件中呈现。
+完全装饰和样式化的ranges(范围)树，将在编辑器组件中渲染。
 `treeMap`对象是基于`ContentState`和可选的装饰器（`DraftDecoratorType`）生成的。
 
 在渲染时，组件应使用[getBlockTree()](#getblocktree)方法遍历`treeMap`对象以渲染装饰范围和样式化范围。

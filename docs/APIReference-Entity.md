@@ -71,7 +71,7 @@ create(
 add(instance: DraftEntityInstance): string
 ```
 在大多数情况下，您将使用`Entity.create()`。
-这是一种便捷的方法，在典型的“草稿”用法中您可能不需要。
+这是一种便捷的方法，在典型的`Draft`用法中您可能不需要。
 
 在已经创建实例并且现在需要将其添加到`Entity`存储的情况下，添加功能很有用。
 如果要恢复`ContentState`的原始JavaScript表示以进行编辑，则可能会发生这种情况。

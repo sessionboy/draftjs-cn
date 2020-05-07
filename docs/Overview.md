@@ -31,7 +31,7 @@ yarn add draft-js react react-dom es6-shim
 
 ## API变更通知
 
-开始之前，请注意，我们最近在草稿中更改了实体存储的API。最新版本，v0.10.0支持新旧API。接下来v0.11.0将删除旧的API。如果您有兴趣帮助或跟踪进度，请按照问题[issue 839](https://github.com/facebook/draft-js/issues/839)进行。
+开始之前，请注意，我们最近在`Draft`中更改了实体存储的API。最新版本，v0.10.0支持新旧API。接下来v0.11.0将删除旧的API。如果您有兴趣帮助或跟踪进度，请按照问题[issue 839](https://github.com/facebook/draft-js/issues/839)进行。
 
 ## 用法
 
@@ -78,6 +78,6 @@ ReactDOM.render(<MyEditor />, document.getElementById('container'));
 ```html
 <meta charset="utf-8" />
 ```
-Draft.css呈现编辑器时应包括在内。详细了解[原因](/docs/advanced-topics-issues-and-pitfalls#missing-draftcss)。
+Draft.css渲染编辑器时应包括在内。详细了解[原因](/docs/advanced-topics-issues-and-pitfalls#missing-draftcss)。
 
 接下来，让我们进入API的基础知识，并学习使用Draft.js还可以做什么。
